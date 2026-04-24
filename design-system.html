@@ -1,0 +1,966 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pulpe Orange — Design System Agrumes</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Caveat:wght@400;700&family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght,ital@9..144,300..700,0;9..144,300..700,1&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="pulpe-orange.css" />
+  <style>
+    /* Page-specific helpers */
+    body.bo-grain { background: var(--bo-cream); }
+
+    /* View switcher */
+    .view-switch {
+      position: fixed;
+      bottom: 18px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      display: inline-flex;
+      background: var(--bo-ink);
+      padding: 4px;
+      border-radius: var(--r-pill);
+      box-shadow: var(--sh-2);
+      border: 2px solid var(--bo-ink);
+    }
+    .view-switch button {
+      padding: 10px 18px;
+      background: transparent;
+      color: var(--bo-cream);
+      border: none;
+      font-family: var(--f-display);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-radius: var(--r-pill);
+      cursor: pointer;
+    }
+    .view-switch button.active {
+      background: var(--bo-yellow);
+      color: var(--bo-ink);
+    }
+
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* DS specifics */
+    .swatch-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+    .type-row {
+      padding: 24px 0;
+      border-bottom: 1px dashed var(--line);
+    }
+    .type-row:last-child { border-bottom: none; }
+    .type-meta {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      margin-bottom: 8px;
+    }
+    .demo-frame {
+      border: 2px solid var(--bo-ink);
+      border-radius: var(--r-2);
+      padding: 32px;
+      background: var(--bo-paper);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+    /* Hero (site demo) */
+    .hero {
+      padding: 64px 32px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .hero__title {
+      font-family: var(--f-display);
+      font-size: clamp(48px, 6.4vw, 110px);
+      text-transform: uppercase;
+      line-height: 0.92;
+      letter-spacing: -0.015em;
+      color: var(--bo-ink);
+      margin: 0 0 24px;
+    }
+    .hero__title em {
+      font-family: var(--f-italic);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--bo-orange);
+      text-transform: none;
+      letter-spacing: -0.02em;
+    }
+    .hero__media {
+      position: relative;
+      aspect-ratio: 4/4;
+      border-radius: 32px;
+      overflow: hidden;
+      border: 3px solid var(--bo-ink);
+      box-shadow: var(--sh-3);
+      background: var(--bo-pulp);
+    }
+    .hero__media video,
+    .hero__media img { width: 100%; height: 100%; object-fit: cover; }
+    .hero__doodle-1 { top: -20px; right: -10px; width: 80px; color: var(--bo-yellow); }
+    .hero__doodle-2 { bottom: 40px; left: -20px; width: 60px; color: var(--bo-leaf); transform: rotate(20deg); }
+    .hero__burst {
+      position: absolute;
+      top: -30px; right: -30px;
+      z-index: 4;
+    }
+
+    .floating-doodle {
+      position: absolute;
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0); }
+      50% { transform: translateY(-10px) rotate(8deg); }
+    }
+
+    /* Photo strip */
+    .photo-strip {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      padding: 64px 32px;
+      flex-wrap: wrap;
+    }
+    .photo-strip .bo-polaroid { width: 220px; }
+    .photo-strip .bo-polaroid img {
+      width: 100%;
+      background: linear-gradient(135deg, var(--bo-pulp), var(--bo-orange));
+    }
+
+    /* Quote section */
+    .quote-section {
+      position: relative;
+      padding: 100px 32px;
+    }
+    .quote-section .bo-italic {
+      max-width: 760px;
+      margin: 0 auto;
+      font-size: clamp(22px, 2.6vw, 36px);
+      text-align: center;
+      line-height: 1.4;
+      color: var(--bo-ink);
+    }
+    .quote-section small {
+      display: block;
+      text-align: center;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      margin-top: 24px;
+    }
+
+    /* Process timeline */
+    .process {
+      padding: 96px 32px;
+    }
+    .process__head { text-align: center; margin-bottom: 56px; }
+    .process__steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .process__step {
+      background: var(--bo-paper);
+      border: 2px solid var(--bo-ink);
+      border-radius: var(--r-2);
+      padding: 28px 22px;
+      box-shadow: var(--sh-2);
+      position: relative;
+    }
+    .process__num {
+      font-family: var(--f-display);
+      font-size: 48px;
+      line-height: 1;
+      color: var(--bo-orange);
+      -webkit-text-stroke: 1px var(--bo-ink);
+    }
+    .process__step h3 {
+      font-family: var(--f-display);
+      text-transform: uppercase;
+      font-size: 18px;
+      margin: 12px 0 8px;
+    }
+    .process__step p {
+      font-size: 14px;
+      color: var(--fg-muted);
+      margin: 0;
+    }
+
+    /* Newsletter */
+    .news {
+      padding: 80px 32px;
+      text-align: center;
+      position: relative;
+    }
+    .news__form {
+      display: flex;
+      gap: 12px;
+      max-width: 520px;
+      margin: 24px auto 0;
+    }
+
+    @media (max-width: 900px) {
+      .hero__inner { grid-template-columns: 1fr; }
+      .swatch-row { grid-template-columns: repeat(3, 1fr); }
+      .process__steps { grid-template-columns: 1fr 1fr; }
+      .news__form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body class="bo-grain">
+
+  <!-- View switcher -->
+  <div class="view-switch" role="tablist">
+    <button class="active" data-view="ds" role="tab">Design System</button>
+    <button data-view="site" role="tab">Demo Site</button>
+  </div>
+
+  <!-- =================================================================
+       VIEW 1 — DESIGN SYSTEM SHOWCASE
+  ================================================================= -->
+  <div class="view active" id="view-ds">
+    <div class="ds-shell">
+
+      <!-- Sidebar -->
+      <aside class="ds-side">
+        <h1 class="ds-side__title">Pulpe<br/><em>Orange</em></h1>
+        <div class="ds-side__meta">Design system v1.0 — Agrumes</div>
+        <ul class="ds-toc" id="ds-toc">
+          <li><a href="#colors"><span class="num">01</span>Couleurs</a></li>
+          <li><a href="#typo"><span class="num">02</span>Typographie</a></li>
+          <li><a href="#sawtooth"><span class="num">03</span>Zigzag</a></li>
+          <li><a href="#buttons"><span class="num">04</span>Boutons</a></li>
+          <li><a href="#bursts"><span class="num">05</span>Stickers</a></li>
+          <li><a href="#marquees"><span class="num">06</span>Marquees</a></li>
+          <li><a href="#cards"><span class="num">07</span>Cartes</a></li>
+          <li><a href="#badges"><span class="num">08</span>Badges &amp; checks</a></li>
+          <li><a href="#icons"><span class="num">09</span>Icônes</a></li>
+          <li><a href="#illu"><span class="num">10</span>Illustrations</a></li>
+          <li><a href="#nav"><span class="num">11</span>Navigation</a></li>
+          <li><a href="#stats"><span class="num">12</span>Statistiques</a></li>
+        </ul>
+      </aside>
+
+      <!-- Main -->
+      <main class="ds-main">
+
+        <!-- Intro -->
+        <header style="margin-bottom: 64px;">
+          <span class="bo-eyebrow">Brand kit — édition agrumes</span>
+          <h2 class="bo-h-display" style="margin: 16px 0 0;">
+            Le pep's<br/>
+            <em>du Sud</em>, en kit.
+          </h2>
+          <p style="max-width: 560px; margin-top: 16px; color: var(--fg-muted); font-size: 16px;">
+            Un système visuel inspiré des codes de Bret's — papier crème,
+            zigzags signature, marquees jaunes, doodles dessinés à la main —
+            transposé sur l'univers <strong>orange &amp; agrumes</strong>.
+            12 sections, 100% HTML/CSS, zéro dépendance.
+          </p>
+        </header>
+
+        <!-- 01 COLORS -->
+        <section class="ds-section-block" id="colors">
+          <div class="ds-section-block__head">
+            <h2 class="ds-section-block__title">Couleurs</h2>
+            <span class="ds-section-block__num">01 / 12</span>
+          </div>
+          <div class="swatch-row">
+            <div class="bo-swatch">
+              <div class="bo-swatch__chip" style="background: var(--bo-orange);"></div>
+              <div class="bo-swatch__meta"><span>Orange</span><span>FF7A1A</span></div>
+            </div>
+            <div class="bo-swatch">
+              <div class="bo-swatch__chip" style="background: var(--bo-orange-deep);"></div>
+              <div class="bo-swatch__meta"><span>Orange D.</span><span>D9540A</span></div>
+            </div>
+            <div class="bo-swatch">
+              <div class="bo-swatch__chip" style="background: var(--bo-yellow);"></div>
+              <div class="bo-swatch__meta"><span>Sun</span><span>FFD23F</span></div>
+            </div>
+            <div class="bo-swatch">
+              <div class="bo-swatch__chip" style="background: var(--bo-leaf);"></div>
+              <div class="bo-swatch__meta"><span>Leaf</span><span>6FAE3F</span></div>
+            </div>
+            <div class="bo-swatch">
+              <div class="bo-swatch__chip" style="background: var(--bo-pulp);"></div>
+              <div class="bo-swatch__meta"><span>Pulpe</span><span>FFB871</span></div>
+            </div>
+            <div class="bo-swatch">
+              <div class="bo-swatch__chip" style="background: var(--bo-zest);"></div>
+              <div class="bo-swatch__meta"><span>Zest</span><span>FFE5B0</span></div>
+            </div>
+            <div class="bo-swatch">
+              <div class="bo-swatch__chip" style="background: var(--bo-cream); border-color: var(--bo-ink);"></div>
+              <div class="bo-swatch__meta"><span>Cream</span><span>FAF0DC</span></div>
+            </div>
+            <div class="bo-swatch">
+              <div class="bo-swatch__chip" style="background: var(--bo-paper);"></div>
+              <div class="bo-swatch__meta"><span>Paper</span><span>FFFAF0</span></div>
+            </div>
+            <div class="bo-swatch">
+              <div class="bo-swatch__chip" style="background: var(--bo-sky);"></div>
+              <div class="bo-swatch__meta"><span>Sky</span><span>BFE2F2</span></div>
+            </div>
+            <div class="bo-swatch">
+              <div class="bo-swatch__chip" style="background: var(--bo-juice);"></div>
+              <div class="bo-swatch__meta"><span>Juice</span><span>FF8C42</span></div>
+            </div>
+            <div class="bo-swatch">
+              <div class="bo-swatch__chip" style="background: var(--bo-ink-soft);"></div>
+              <div class="bo-swatch__meta"><span>Ink soft</span><span>3A2A18</span></div>
+            </div>
+            <div class="bo-swatch">
+              <div class="bo-swatch__chip" style="background: var(--bo-ink);"></div>
+              <div class="bo-swatch__meta"><span>Ink</span><span>1B1208</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 02 TYPO -->
+        <section class="ds-section-block" id="typo">
+          <div class="ds-section-block__head">
+            <h2 class="ds-section-block__title">Typographie</h2>
+            <span class="ds-section-block__num">02 / 12</span>
+          </div>
+          <div class="demo-frame">
+            <div class="type-row">
+              <div class="type-meta">Display — Archivo Black — 96 / 1.0 / -1%</div>
+              <div class="bo-display" style="font-size: 96px;">PRESSÉ FRAIS</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta">Italic editorial — Fraunces Italic — 36 / 1.4</div>
+              <div class="bo-italic" style="font-size: 36px;">une infusion solaire, du jus pulpé, et trois zestes de bonheur.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta">Condensed — Bebas Neue — 56 / 0.9 / +2%</div>
+              <div class="bo-condensed" style="font-size: 56px;">100% jus pressé · 0% concentré</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta">Script — Caveat — 32</div>
+              <div class="bo-script" style="font-size: 32px; color: var(--bo-orange);">cueilli ce matin ✿</div>
+            </div>
+            <div class="type-row">
+              <div class="type-meta">Body — DM Sans — 16 / 1.55</div>
+              <p style="margin: 0; max-width: 640px;">Notre vergers en Sicile et en Andalousie nous fournissent des oranges Tarocco et Valencia récoltées à pleine maturité. Du fruit au flacon, six heures maximum.</p>
+            </div>
+            <div class="type-row">
+              <div class="type-meta">Mono — JetBrains Mono — 11 / +16%</div>
+              <div class="bo-mono">EAN 3 760123 456789 · LOT 042 · 24 AVR 2026</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 03 SAWTOOTH -->
+        <section class="ds-section-block" id="sawtooth">
+          <div class="ds-section-block__head">
+            <h2 class="ds-section-block__title">Zigzag — bord signature</h2>
+            <span class="ds-section-block__num">03 / 12</span>
+          </div>
+          <p style="color: var(--fg-muted); margin-bottom: 24px;">
+            La bordure dentelée façon "papier déchiré" qui sépare les sections.
+            Trois variantes : sur fond crème, jaune, orange.
+          </p>
+          <div style="background: var(--bo-yellow); height: 120px; position: relative;" class="bo-section-edge bo-section-edge--on-yellow">
+            <div style="position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--f-display); font-size: 28px;">
+              SECTION JAUNE
+            </div>
+          </div>
+          <div style="height: 24px;"></div>
+          <div style="background: var(--bo-orange); color: #fff; height: 120px; position: relative;" class="bo-section-edge bo-section-edge--on-orange">
+            <div style="position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--f-display); font-size: 28px;">
+              SECTION ORANGE
+            </div>
+          </div>
+          <div style="height: 24px;"></div>
+          <div style="background: var(--bo-cream); height: 120px; position: relative;" class="bo-section-edge bo-section-edge--on-cream">
+            <div style="position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--f-display); font-size: 28px;">
+              SECTION CRÈME
+            </div>
+          </div>
+        </section>
+
+        <!-- 04 BUTTONS -->
+        <section class="ds-section-block" id="buttons">
+          <div class="ds-section-block__head">
+            <h2 class="ds-section-block__title">Boutons</h2>
+            <span class="ds-section-block__num">04 / 12</span>
+          </div>
+          <div class="demo-frame">
+            <div class="btn-row" style="margin-bottom: 24px;">
+              <a href="#" class="bo-btn">Découvrir <i class="bo-btn__arrow"></i></a>
+              <a href="#" class="bo-btn bo-btn--orange">Commander <i class="bo-btn__arrow"></i></a>
+              <a href="#" class="bo-btn bo-btn--leaf">Bio &amp; local</a>
+              <a href="#" class="bo-btn bo-btn--ink">Le secret</a>
+              <a href="#" class="bo-btn bo-btn--ghost">En savoir +</a>
+            </div>
+            <div class="btn-row">
+              <a href="#" class="bo-btn bo-btn--sm">Small</a>
+              <a href="#" class="bo-btn">Default</a>
+              <a href="#" class="bo-btn bo-btn--lg bo-btn--orange">Large CTA <i class="bo-btn__arrow"></i></a>
+            </div>
+          </div>
+        </section>
+
+        <!-- 05 BURSTS -->
+        <section class="ds-section-block" id="bursts">
+          <div class="ds-section-block__head">
+            <h2 class="ds-section-block__title">Stickers / Bursts</h2>
+            <span class="ds-section-block__num">05 / 12</span>
+          </div>
+          <div class="demo-frame" style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap; justify-content: center;">
+            <div class="bo-burst">
+              <div>
+                <div style="font-size: 22px;">100%</div>
+                <div style="font-size: 14px; margin-top: 4px;">JUS<br/>PRESSÉ</div>
+              </div>
+            </div>
+            <div class="bo-burst bo-burst--orange" style="transform: rotate(8deg);">
+              <div>
+                <div style="font-size: 26px;">NEW</div>
+                <div style="font-size: 12px; margin-top: 4px; font-family: var(--f-mono); letter-spacing: 0.12em;">RÉCOLTE 26</div>
+              </div>
+            </div>
+            <div class="bo-burst bo-burst--leaf bo-burst--lg" style="transform: rotate(-4deg);">
+              <div>
+                <div style="font-size: 20px;">100%</div>
+                <div style="font-size: 36px; line-height: 1;">BIO</div>
+                <div style="font-size: 12px; font-family: var(--f-mono);">CERTIFIÉ</div>
+              </div>
+            </div>
+            <div class="bo-stamp">
+              <div>
+                <div style="font-size: 14px;">PRIMÉ</div>
+                <div style="font-family: var(--f-italic); font-style: italic; font-size: 12px;">2026</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 06 MARQUEES -->
+        <section class="ds-section-block" id="marquees">
+          <div class="ds-section-block__head">
+            <h2 class="ds-section-block__title">Marquees</h2>
+            <span class="ds-section-block__num">06 / 12</span>
+          </div>
+          <div class="bo-marquee">
+            <div class="bo-marquee__track">
+              <span>Pressé frais</span><span>100% jus</span><span>Sans concentré</span>
+              <span>Origine Sicile</span><span>Récolte main</span>
+              <span>Pressé frais</span><span>100% jus</span><span>Sans concentré</span>
+              <span>Origine Sicile</span><span>Récolte main</span>
+            </div>
+          </div>
+          <div style="height: 16px;"></div>
+          <div class="bo-marquee bo-marquee--orange bo-marquee--reverse">
+            <div class="bo-marquee__track">
+              <span>Engagés</span><span>Bio certifié</span><span>Vergers Andalousie</span>
+              <span>Zéro pesticide</span><span>Goût solaire</span>
+              <span>Engagés</span><span>Bio certifié</span><span>Vergers Andalousie</span>
+              <span>Zéro pesticide</span><span>Goût solaire</span>
+            </div>
+          </div>
+          <div style="height: 16px;"></div>
+          <div class="bo-marquee bo-marquee--ink">
+            <div class="bo-marquee__track">
+              <span>Édition limitée</span><span>Lot 042</span><span>800 bouteilles</span>
+              <span>Pré-commande</span>
+              <span>Édition limitée</span><span>Lot 042</span><span>800 bouteilles</span>
+              <span>Pré-commande</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 07 CARDS -->
+        <section class="ds-section-block" id="cards">
+          <div class="ds-section-block__head">
+            <h2 class="ds-section-block__title">Cartes</h2>
+            <span class="ds-section-block__num">07 / 12</span>
+          </div>
+          <div class="bo-grid-3">
+            <div class="bo-card bo-card--tilt-l">
+              <div class="bo-card__media" style="background: linear-gradient(135deg, var(--bo-pulp), var(--bo-orange));"></div>
+              <h3 class="bo-card__title">Tarocco · 1L</h3>
+              <p class="bo-card__sub">Orange sanguine de Sicile, pressée à froid.</p>
+              <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+                <span class="bo-mono">7,90 €</span>
+                <a href="#" class="bo-btn bo-btn--sm bo-btn--orange">Ajouter</a>
+              </div>
+            </div>
+            <div class="bo-card">
+              <div class="bo-card__media" style="background: linear-gradient(135deg, var(--bo-yellow), var(--bo-orange-hot));"></div>
+              <h3 class="bo-card__title">Valencia · 1L</h3>
+              <p class="bo-card__sub">Andalousie, récolte de février, sucrée naturelle.</p>
+              <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+                <span class="bo-mono">6,90 €</span>
+                <a href="#" class="bo-btn bo-btn--sm bo-btn--orange">Ajouter</a>
+              </div>
+            </div>
+            <div class="bo-card bo-card--tilt-r">
+              <div class="bo-card__media" style="background: linear-gradient(135deg, var(--bo-leaf), #2d6018);"></div>
+              <h3 class="bo-card__title">Bergamote · 50cl</h3>
+              <p class="bo-card__sub">Calabre, édition automne, intensité 9/10.</p>
+              <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+                <span class="bo-mono">9,50 €</span>
+                <a href="#" class="bo-btn bo-btn--sm bo-btn--orange">Ajouter</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 08 BADGES -->
+        <section class="ds-section-block" id="badges">
+          <div class="ds-section-block__head">
+            <h2 class="ds-section-block__title">Badges &amp; checks</h2>
+            <span class="ds-section-block__num">08 / 12</span>
+          </div>
+          <div class="demo-frame">
+            <div class="btn-row" style="margin-bottom: 32px;">
+              <span class="bo-badge">100% jus</span>
+              <span class="bo-badge bo-badge--orange">Bio</span>
+              <span class="bo-badge bo-badge--leaf">Vegan</span>
+              <span class="bo-badge bo-badge--out">Sans gluten</span>
+            </div>
+            <ul class="bo-checks" style="max-width: 480px;">
+              <li>Oranges récoltées à la main au pic de maturité</li>
+              <li>Pressage à froid sous 6 heures après récolte</li>
+              <li>Aucun additif, aucun sucre ajouté, aucun concentré</li>
+              <li>Bouteille consignée, retournable en boutique</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 09 ICONS -->
+        <section class="ds-section-block" id="icons">
+          <div class="ds-section-block__head">
+            <h2 class="ds-section-block__title">Icônes</h2>
+            <span class="ds-section-block__num">09 / 12</span>
+          </div>
+          <div class="demo-frame" style="display: flex; gap: 32px; flex-wrap: wrap; align-items: center;">
+            <div style="text-align: center;"><i class="bo-icon bo-icon--orange-slice text-orange" style="width: 56px; height: 56px;"></i><div class="bo-mono" style="margin-top: 8px;">slice</div></div>
+            <div style="text-align: center;"><i class="bo-icon bo-icon--leaf text-leaf" style="width: 56px; height: 56px;"></i><div class="bo-mono" style="margin-top: 8px;">leaf</div></div>
+            <div style="text-align: center;"><i class="bo-icon bo-icon--drop text-orange" style="width: 56px; height: 56px;"></i><div class="bo-mono" style="margin-top: 8px;">drop</div></div>
+            <div style="text-align: center;"><i class="bo-icon bo-icon--star text-ink" style="width: 56px; height: 56px;"></i><div class="bo-mono" style="margin-top: 8px;">star</div></div>
+            <div style="text-align: center;"><i class="bo-icon bo-icon--heart text-orange" style="width: 56px; height: 56px;"></i><div class="bo-mono" style="margin-top: 8px;">heart</div></div>
+            <div style="text-align: center;"><i class="bo-icon bo-icon--spark text-ink" style="width: 56px; height: 56px;"></i><div class="bo-mono" style="margin-top: 8px;">spark</div></div>
+            <div style="text-align: center;"><i class="bo-icon bo-icon--arrow text-ink" style="width: 56px; height: 56px;"></i><div class="bo-mono" style="margin-top: 8px;">arrow</div></div>
+          </div>
+        </section>
+
+        <!-- 10 ILLU -->
+        <section class="ds-section-block" id="illu">
+          <div class="ds-section-block__head">
+            <h2 class="ds-section-block__title">Illustrations</h2>
+            <span class="ds-section-block__num">10 / 12</span>
+          </div>
+          <div class="demo-frame" style="display: flex; gap: 64px; align-items: center; justify-content: center; flex-wrap: wrap;">
+            <div style="text-align: center;">
+              <div class="bo-orange-illu"></div>
+              <div class="bo-mono" style="margin-top: 16px;">Orange entière</div>
+            </div>
+            <div style="text-align: center;">
+              <div class="bo-orange-slice"></div>
+              <div class="bo-mono" style="margin-top: 16px;">Demi-orange</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 11 NAV -->
+        <section class="ds-section-block" id="nav">
+          <div class="ds-section-block__head">
+            <h2 class="ds-section-block__title">Navigation</h2>
+            <span class="ds-section-block__num">11 / 12</span>
+          </div>
+          <div style="border: 2px solid var(--bo-ink); border-radius: var(--r-2); overflow: hidden;">
+            <nav class="bo-nav" style="position: relative;">
+              <a href="#" class="bo-nav__brand">
+                <svg class="bo-nav__logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <radialGradient id="bo-nav-og" cx="35%" cy="35%" r="70%">
+                      <stop offset="0%" stop-color="#FFB871"/>
+                      <stop offset="60%" stop-color="#FF7A1A"/>
+                      <stop offset="100%" stop-color="#D9540A"/>
+                    </radialGradient>
+                  </defs>
+                  <g transform="translate(60 4) rotate(-22)">
+                    <path d="M0 20 Q0 0 30 0 Q30 20 0 20 Z" fill="#6FAE3F" stroke="#1B1208" stroke-width="3" stroke-linejoin="round"/>
+                  </g>
+                  <circle cx="50" cy="56" r="38" fill="url(#bo-nav-og)" stroke="#1B1208" stroke-width="3"/>
+                  <ellipse cx="38" cy="46" rx="8" ry="5" fill="#fff" opacity="0.32"/>
+                  <circle cx="50" cy="24" r="3.5" fill="#D9540A"/>
+                </svg>
+                Pulpe
+              </a>
+              <ul class="bo-nav__links">
+                <li><a href="#">Vergers</a></li>
+                <li><a href="#">Process</a></li>
+                <li><a href="#">Boutique</a></li>
+                <li><a href="#">Engagés</a></li>
+                <li><a href="#">Journal</a></li>
+              </ul>
+              <a href="#" class="bo-btn bo-btn--orange bo-btn--sm">Commander <i class="bo-btn__arrow"></i></a>
+            </nav>
+          </div>
+        </section>
+
+        <!-- 12 STATS -->
+        <section class="ds-section-block" id="stats">
+          <div class="ds-section-block__head">
+            <h2 class="ds-section-block__title">Statistiques</h2>
+            <span class="ds-section-block__num">12 / 12</span>
+          </div>
+          <div class="bo-stats">
+            <div class="bo-stat">
+              <div class="bo-stat__num">100<span>%</span></div>
+              <div class="bo-stat__label">Jus pressé</div>
+            </div>
+            <div class="bo-stat">
+              <div class="bo-stat__num">06<span>h</span></div>
+              <div class="bo-stat__label">Du fruit au flacon</div>
+            </div>
+            <div class="bo-stat">
+              <div class="bo-stat__num">12</div>
+              <div class="bo-stat__label">Vergers partenaires</div>
+            </div>
+            <div class="bo-stat">
+              <div class="bo-stat__num">2014</div>
+              <div class="bo-stat__label">Première bouteille</div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- =================================================================
+       VIEW 2 — DEMO SITE (Bret's-style applied to citrus)
+  ================================================================= -->
+  <div class="view" id="view-site">
+
+    <!-- NAV -->
+    <nav class="bo-nav">
+      <a href="#" class="bo-nav__brand">
+        <svg class="bo-nav__logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <radialGradient id="bo-nav-og-2" cx="35%" cy="35%" r="70%">
+              <stop offset="0%" stop-color="#FFB871"/>
+              <stop offset="60%" stop-color="#FF7A1A"/>
+              <stop offset="100%" stop-color="#D9540A"/>
+            </radialGradient>
+          </defs>
+          <g transform="translate(60 4) rotate(-22)">
+            <path d="M0 20 Q0 0 30 0 Q30 20 0 20 Z" fill="#6FAE3F" stroke="#1B1208" stroke-width="3" stroke-linejoin="round"/>
+          </g>
+          <circle cx="50" cy="56" r="38" fill="url(#bo-nav-og-2)" stroke="#1B1208" stroke-width="3"/>
+          <ellipse cx="38" cy="46" rx="8" ry="5" fill="#fff" opacity="0.32"/>
+          <circle cx="50" cy="24" r="3.5" fill="#D9540A"/>
+        </svg>
+        Pulpe
+      </a>
+      <ul class="bo-nav__links">
+        <li><a href="#">Vergers</a></li>
+        <li><a href="#">Process</a></li>
+        <li><a href="#">Boutique</a></li>
+        <li><a href="#">Engagés</a></li>
+        <li><a href="#">Journal</a></li>
+      </ul>
+      <a href="#" class="bo-btn bo-btn--orange bo-btn--sm">Commander <i class="bo-btn__arrow"></i></a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero bg-cream">
+      <i class="bo-icon bo-icon--star text-yellow floating-doodle" style="top: 80px; left: 12%; width: 36px; height: 36px;"></i>
+      <i class="bo-icon bo-icon--heart text-orange floating-doodle" style="top: 140px; left: 42%; width: 28px; height: 28px; animation-delay: 1s;"></i>
+      <i class="bo-icon bo-icon--spark text-leaf floating-doodle" style="top: 60px; right: 14%; width: 32px; height: 32px; animation-delay: 2s;"></i>
+
+      <div class="hero__inner">
+        <div>
+          <span class="bo-eyebrow">Édition récolte 2026</span>
+          <h1 class="hero__title">
+            Mais pourquoi tout le monde <em>s'en jette</em> un verre ?
+          </h1>
+          <ul class="bo-checks" style="margin-bottom: 28px;">
+            <li>Oranges Tarocco &amp; Valencia, 100% naturelles</li>
+            <li>Pressées à froid, sans concentré, sans sucre</li>
+            <li>Vergers en Sicile et Andalousie, jamais loin du soleil</li>
+            <li>Une bouteille consignée, parce que la planète aussi</li>
+          </ul>
+          <div class="btn-row">
+            <a href="#" class="bo-btn bo-btn--orange bo-btn--lg">Découvrir le pressage <i class="bo-btn__arrow"></i></a>
+            <a href="#" class="bo-btn bo-btn--ghost">Voir les vergers</a>
+          </div>
+        </div>
+        <div class="hero__media">
+          <video src="orange-dance-dance-revolution.mp4" autoplay muted loop playsinline></video>
+          <div class="hero__burst">
+            <div class="bo-burst bo-burst--orange">
+              <div>
+                <div style="font-size: 22px;">NEW</div>
+                <div style="font-size: 12px; margin-top: 4px; font-family: var(--f-mono); letter-spacing: 0.12em;">RÉCOLTE 26</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ZIGZAG transition -->
+    <div class="bo-sawtooth"></div>
+
+    <!-- YELLOW BAND -->
+    <div class="bo-marquee">
+      <div class="bo-marquee__track">
+        <span>Engagés</span><span>100% jus pressé</span><span>Sans sucre ajouté</span>
+        <span>Bio certifié</span><span>Origine Sicile</span><span>Vergers familiaux</span>
+        <span>Engagés</span><span>100% jus pressé</span><span>Sans sucre ajouté</span>
+        <span>Bio certifié</span><span>Origine Sicile</span><span>Vergers familiaux</span>
+      </div>
+    </div>
+
+    <!-- QUOTE / SKY -->
+    <div class="bo-sky-band">
+      <div class="bo-cloud bo-cloud--1"></div>
+      <div class="bo-cloud bo-cloud--2"></div>
+      <div class="bo-cloud bo-cloud--3"></div>
+      <div class="bo-italic" style="position: relative; z-index: 2;">
+        On choisit de presser nos oranges dans le respect du fruit,
+        de la terre, et des gens qui les cueillent.
+      </div>
+      <small style="position: relative; z-index: 2;">— Manifeste Pulpe, 2026</small>
+    </div>
+
+    <!-- ZIGZAG into cream -->
+    <div class="bo-sawtooth bo-sawtooth--bottom" style="background-color: var(--bo-cream);"></div>
+
+    <!-- IMPACT — grid bg -->
+    <section style="padding: 96px 32px; background: var(--bo-paper);" class="bo-grid-bg">
+      <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+        <span class="bo-eyebrow" style="justify-content: center;">Notre impact environnemental</span>
+        <h2 class="bo-h-display" style="margin: 16px 0 16px;">
+          Faire du jus avec des <em>écorces</em>,<br/>
+          ça vous étonne ?
+        </h2>
+        <p class="bo-italic" style="max-width: 620px; margin: 0 auto 48px; font-size: 18px; color: var(--bo-ink);">
+          Nous récupérons 100% des écorces pour en faire des huiles essentielles,
+          des confits, et même de l'énergie pour la presse. Zéro déchet, plein de pep's.
+        </p>
+        <div class="bo-grid-3" style="max-width: 1100px; margin: 0 auto;">
+          <div class="bo-card">
+            <div style="font-family: var(--f-display); font-size: 56px; color: var(--bo-orange); line-height: 1;">100%</div>
+            <h3 style="font-family: var(--f-display); margin: 12px 0 8px; text-transform: uppercase;">Écorces valorisées</h3>
+            <p style="font-size: 14px; color: var(--fg-muted); margin: 0;">Confits, huiles, biomasse — rien ne se perd.</p>
+          </div>
+          <div class="bo-card">
+            <div style="font-family: var(--f-display); font-size: 56px; color: var(--bo-orange); line-height: 1;">−40%</div>
+            <h3 style="font-family: var(--f-display); margin: 12px 0 8px; text-transform: uppercase;">Empreinte carbone</h3>
+            <p style="font-size: 14px; color: var(--fg-muted); margin: 0;">Mesurée vs. la moyenne du secteur jus de fruits.</p>
+          </div>
+          <div class="bo-card">
+            <div style="font-family: var(--f-display); font-size: 56px; color: var(--bo-orange); line-height: 1;">12</div>
+            <h3 style="font-family: var(--f-display); margin: 12px 0 8px; text-transform: uppercase;">Vergers partenaires</h3>
+            <p style="font-size: 14px; color: var(--fg-muted); margin: 0;">Familles indépendantes, contrats triennaux.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ZIGZAG -->
+    <div class="bo-sawtooth"></div>
+
+    <!-- ORANGE BAND with marquee -->
+    <div class="bo-marquee bo-marquee--orange bo-marquee--reverse">
+      <div class="bo-marquee__track">
+        <span>Pressé ce matin</span><span>Embouteillé à 11h</span><span>Livré demain</span>
+        <span>Croquez la fraîcheur</span>
+        <span>Pressé ce matin</span><span>Embouteillé à 11h</span><span>Livré demain</span>
+        <span>Croquez la fraîcheur</span>
+      </div>
+    </div>
+
+    <!-- PROCESS -->
+    <section class="process bg-cream">
+      <div class="process__head">
+        <span class="bo-eyebrow" style="justify-content: center;">Notre process — du verger au flacon</span>
+        <h2 class="bo-h-display" style="margin-top: 16px;">
+          Quatre étapes, <em>zéro raccourci</em>
+        </h2>
+      </div>
+      <div class="process__steps">
+        <div class="process__step">
+          <div class="process__num">01</div>
+          <h3>Récolte main</h3>
+          <p>Cueillette à pleine maturité, panier en osier, jamais avant 9h.</p>
+        </div>
+        <div class="process__step bo-tilt-l" style="background: var(--bo-yellow);">
+          <div class="process__num" style="color: var(--bo-ink); -webkit-text-stroke: 0;">02</div>
+          <h3>Pressage à froid</h3>
+          <p>Sous 6 heures, sans chauffer, pour préserver les arômes.</p>
+        </div>
+        <div class="process__step">
+          <div class="process__num">03</div>
+          <h3>Embouteillage</h3>
+          <p>Bouteille consignée en verre brun, capsule métal recyclable.</p>
+        </div>
+        <div class="process__step bo-tilt-r" style="background: var(--bo-orange); color: #fff;">
+          <div class="process__num" style="color: #fff; -webkit-text-stroke: 1px var(--bo-ink);">04</div>
+          <h3>Livraison</h3>
+          <p>Sous 24h en vélo-cargo en zone urbaine, par train régional ailleurs.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHOTOS / POLAROIDS -->
+    <div class="photo-strip bg-paper">
+      <div class="bo-polaroid bo-tilt-l">
+        <img src="" alt="" style="background: linear-gradient(135deg, var(--bo-orange), var(--bo-pulp));" />
+        cueillette du jeudi
+      </div>
+      <div class="bo-polaroid">
+        <img src="" alt="" style="background: linear-gradient(135deg, var(--bo-leaf), var(--bo-leaf-deep));" />
+        verger Caltagirone
+      </div>
+      <div class="bo-polaroid bo-tilt-r">
+        <img src="" alt="" style="background: linear-gradient(135deg, var(--bo-yellow), var(--bo-orange));" />
+        pressage 11h12
+      </div>
+      <div class="bo-polaroid">
+        <img src="" alt="" style="background: linear-gradient(135deg, var(--bo-juice), var(--bo-orange-deep));" />
+        bouteille n°042
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="bo-stats">
+      <div class="bo-stat">
+        <div class="bo-stat__num">100<span>%</span></div>
+        <div class="bo-stat__label">Jus pressé</div>
+      </div>
+      <div class="bo-stat">
+        <div class="bo-stat__num">06<span>h</span></div>
+        <div class="bo-stat__label">Du fruit au flacon</div>
+      </div>
+      <div class="bo-stat">
+        <div class="bo-stat__num">12</div>
+        <div class="bo-stat__label">Vergers partenaires</div>
+      </div>
+      <div class="bo-stat">
+        <div class="bo-stat__num">2014</div>
+        <div class="bo-stat__label">Première bouteille</div>
+      </div>
+    </div>
+
+    <!-- NEWSLETTER -->
+    <section class="news bg-cream">
+      <i class="bo-icon bo-icon--orange-slice text-orange floating-doodle" style="top: 30px; left: 22%; width: 40px; height: 40px;"></i>
+      <i class="bo-icon bo-icon--leaf text-leaf floating-doodle" style="top: 50px; right: 22%; width: 36px; height: 36px; animation-delay: 1.5s;"></i>
+      <span class="bo-eyebrow" style="justify-content: center;">Restez juteux</span>
+      <h2 class="bo-h-display" style="margin: 16px 0 8px;">
+        Une lettre, <em>chaque récolte.</em>
+      </h2>
+      <p style="color: var(--fg-muted); max-width: 480px; margin: 0 auto;">
+        Les histoires des vergers, les éditions limitées, les recettes du chef — directement dans votre boîte.
+      </p>
+      <form class="news__form" onsubmit="event.preventDefault();">
+        <input type="email" class="bo-input" placeholder="votre@email.fr" />
+        <button type="submit" class="bo-btn bo-btn--orange">S'abonner <i class="bo-btn__arrow"></i></button>
+      </form>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bo-footer">
+      <div class="bo-footer__top">
+        <div>
+          <div class="bo-footer__brand">
+            PULPE<br/><em>Orange.</em>
+          </div>
+          <p style="margin-top: 16px; max-width: 320px; color: #c0a888; font-size: 14px;">
+            Le pep's du Sud, pressé en France. Atelier Marseille — 2026.
+          </p>
+        </div>
+        <div class="bo-footer__col">
+          <h4>Boutique</h4>
+          <ul>
+            <li><a href="#">Tarocco</a></li>
+            <li><a href="#">Valencia</a></li>
+            <li><a href="#">Bergamote</a></li>
+            <li><a href="#">Coffrets</a></li>
+          </ul>
+        </div>
+        <div class="bo-footer__col">
+          <h4>Marque</h4>
+          <ul>
+            <li><a href="#">Vergers</a></li>
+            <li><a href="#">Process</a></li>
+            <li><a href="#">Engagés</a></li>
+            <li><a href="#">Presse</a></li>
+          </ul>
+        </div>
+        <div class="bo-footer__col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="#">Boutiques</a></li>
+            <li><a href="#">Pro / B2B</a></li>
+            <li><a href="#">Newsletter</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bo-footer__bottom">
+        <span>© 2026 Pulpe Orange — Tous droits réservés</span>
+        <span>EAN 3 760123 456789 — Lot 042</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // View switcher
+    const buttons = document.querySelectorAll('.view-switch button');
+    const views = document.querySelectorAll('.view');
+    buttons.forEach((b) => {
+      b.addEventListener('click', () => {
+        buttons.forEach((x) => x.classList.remove('active'));
+        views.forEach((v) => v.classList.remove('active'));
+        b.classList.add('active');
+        document.getElementById('view-' + b.dataset.view).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      });
+    });
+
+    // TOC active link
+    const tocLinks = document.querySelectorAll('#ds-toc a');
+    const sections = Array.from(tocLinks).map((a) => document.querySelector(a.getAttribute('href')));
+    const setActive = () => {
+      const y = window.scrollY + 120;
+      let active = sections[0];
+      for (const s of sections) if (s && s.offsetTop <= y) active = s;
+      tocLinks.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + active?.id));
+    };
+    window.addEventListener('scroll', setActive, { passive: true });
+    setActive();
+  </script>
+
+</body>
+</html>
