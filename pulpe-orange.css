@@ -1,0 +1,1204 @@
+/* =========================================================
+   PULPE ORANGE — Design System
+   Papier crème, zigzags, marquees jaunes, doodles —
+   décliné en thème AGRUMES.
+   ========================================================= */
+
+:root {
+  /* ---------- Citrus palette ---------- */
+  --bo-cream:        #FAF0DC;   /* paper background */
+  --bo-cream-deep:   #F4E4C0;
+  --bo-paper:        #FFFAF0;
+  --bo-orange:       #FF7A1A;   /* main citrus orange */
+  --bo-orange-deep:  #D9540A;
+  --bo-orange-hot:   #FF4500;
+  --bo-yellow:       #FFD23F;   /* sun yellow (CTA + marquee) */
+  --bo-yellow-deep:  #F5B400;
+  --bo-leaf:         #6FAE3F;   /* orange-tree leaf green */
+  --bo-leaf-deep:    #3F7821;
+  --bo-pulp:         #FFB871;   /* soft pulp orange */
+  --bo-zest:         #FFE5B0;   /* zest highlight */
+  --bo-ink:          #1B1208;   /* warm black ink */
+  --bo-ink-soft:     #3A2A18;
+  --bo-juice:        #FF8C42;   /* orange juice color */
+  --bo-sky:          #BFE2F2;   /* sky blue (cloud bg) */
+
+  /* ---------- Semantic ---------- */
+  --bg:        var(--bo-cream);
+  --bg-alt:    var(--bo-paper);
+  --bg-sun:    var(--bo-yellow);
+  --fg:        var(--bo-ink);
+  --fg-muted:  #6b5640;
+  --accent:    var(--bo-orange);
+  --accent-2:  var(--bo-yellow);
+  --leaf:      var(--bo-leaf);
+  --line:      #1b120822;
+  --surface:   #fffaf0;
+
+  /* ---------- Type families ---------- */
+  --f-display:  "Archivo Black", "Anton", Impact, sans-serif;
+  --f-condensed:"Bebas Neue", "Anton", Impact, sans-serif;
+  --f-italic:   "Fraunces", "Playfair Display", Georgia, serif;
+  --f-script:   "Caveat", "Patrick Hand", cursive;
+  --f-body:     "DM Sans", Inter, system-ui, sans-serif;
+  --f-mono:     "JetBrains Mono", ui-monospace, monospace;
+
+  /* ---------- Type scale ---------- */
+  --fs-hero:    clamp(60px, 9vw, 160px);
+  --fs-display: clamp(44px, 5.6vw, 96px);
+  --fs-h1:      clamp(34px, 3.8vw, 60px);
+  --fs-h2:      clamp(26px, 2.6vw, 40px);
+  --fs-h3:      22px;
+  --fs-body:    16px;
+  --fs-small:   13px;
+  --fs-micro:   11px;
+
+  /* ---------- Space ---------- */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 24px;
+  --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
+
+  /* ---------- Radius ---------- */
+  --r-0: 0px;
+  --r-1: 4px;
+  --r-2: 12px;
+  --r-3: 24px;
+  --r-pill: 999px;
+
+  /* ---------- Elevation (hard offset shadows à la sticker) ---------- */
+  --sh-1: 2px 2px 0 var(--bo-ink);
+  --sh-2: 4px 4px 0 var(--bo-ink);
+  --sh-3: 8px 8px 0 var(--bo-ink);
+  --sh-orange: 6px 6px 0 var(--bo-orange);
+  --sh-yellow: 6px 6px 0 var(--bo-yellow-deep);
+
+  /* ---------- Sawtooth (zigzag) signature edge ---------- */
+  --sawtooth-h: 18px;
+  --sawtooth-w: 28px;
+}
+
+[data-theme="dark"] {
+  --bg: #1B1208;
+  --bg-alt: #261a0c;
+  --fg: var(--bo-cream);
+  --fg-muted: #c0a888;
+  --line: #faf0dc22;
+  --surface: #261a0ccc;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--f-body);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, video, svg { display: block; max-width: 100%; }
+
+a { color: inherit; }
+
+/* =========================================================
+   01. TYPOGRAPHY
+   ========================================================= */
+.bo-display {
+  font-family: var(--f-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+.bo-condensed {
+  font-family: var(--f-condensed);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 0.9;
+}
+.bo-italic {
+  font-family: var(--f-italic);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.bo-script {
+  font-family: var(--f-script);
+  font-weight: 400;
+  line-height: 1;
+}
+.bo-mono {
+  font-family: var(--f-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.bo-h-display {
+  font-family: var(--f-display);
+  font-size: var(--fs-display);
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+.bo-h-display em {
+  font-family: var(--f-italic);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  color: var(--bo-orange);
+  letter-spacing: -0.02em;
+}
+
+.bo-eyebrow {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--bo-orange-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.bo-eyebrow::before {
+  content: "";
+  width: 24px;
+  height: 2px;
+  background: var(--bo-orange);
+}
+
+/* =========================================================
+   02. SAWTOOTH / ZIGZAG DIVIDERS  — signature element
+   ========================================================= */
+.bo-sawtooth {
+  display: block;
+  width: 100%;
+  height: var(--sawtooth-h);
+  background-color: var(--bo-cream);
+  --c1: var(--bo-cream);
+  --c2: transparent;
+  background-image:
+    linear-gradient(135deg, var(--c1) 25%, var(--c2) 25%),
+    linear-gradient(225deg, var(--c1) 25%, var(--c2) 25%);
+  background-position: 0 0;
+  background-size: var(--sawtooth-w) var(--sawtooth-h);
+  background-repeat: repeat-x;
+}
+.bo-sawtooth--bottom { transform: scaleY(-1); }
+
+/* In-flow zigzag wedge between two sections (top edge of next section) */
+.bo-section-edge {
+  position: relative;
+}
+.bo-section-edge::before,
+.bo-section-edge::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--sawtooth-h);
+  background-image:
+    linear-gradient(135deg, var(--bg) 25%, transparent 25%),
+    linear-gradient(225deg, var(--bg) 25%, transparent 25%);
+  background-size: var(--sawtooth-w) var(--sawtooth-h);
+  background-position: 0 0;
+  background-repeat: repeat-x;
+  pointer-events: none;
+  z-index: 2;
+}
+.bo-section-edge::before { top: 0; transform: scaleY(-1); }
+.bo-section-edge::after  { bottom: 0; }
+
+/* Color variant — when sitting on yellow */
+.bo-section-edge--on-yellow::before,
+.bo-section-edge--on-yellow::after {
+  background-image:
+    linear-gradient(135deg, var(--bo-yellow) 25%, transparent 25%),
+    linear-gradient(225deg, var(--bo-yellow) 25%, transparent 25%);
+}
+.bo-section-edge--on-orange::before,
+.bo-section-edge--on-orange::after {
+  background-image:
+    linear-gradient(135deg, var(--bo-orange) 25%, transparent 25%),
+    linear-gradient(225deg, var(--bo-orange) 25%, transparent 25%);
+}
+.bo-section-edge--on-cream::before,
+.bo-section-edge--on-cream::after {
+  background-image:
+    linear-gradient(135deg, var(--bo-cream) 25%, transparent 25%),
+    linear-gradient(225deg, var(--bo-cream) 25%, transparent 25%);
+}
+
+/* =========================================================
+   03. NOTEBOOK GRID + PAPER TEXTURE
+   ========================================================= */
+.bo-paper {
+  background-color: var(--bo-cream);
+  background-image:
+    radial-gradient(circle at 20% 30%, #ffffff70, transparent 50%),
+    radial-gradient(circle at 80% 70%, #f5e4bc60, transparent 50%);
+}
+
+.bo-grid-bg {
+  background-color: var(--bo-paper);
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.bo-grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.18;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.07 0 0 0 0 0.03 0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* =========================================================
+   04. BUTTONS (yellow CTA + hard shadow)
+   ========================================================= */
+.bo-btn {
+  --btn-bg: var(--bo-yellow);
+  --btn-fg: var(--bo-ink);
+  --btn-border: var(--bo-ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  font-family: var(--f-display);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: 2px solid var(--btn-border);
+  border-radius: var(--r-pill);
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--sh-2);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.bo-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--bo-ink);
+}
+.bo-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--bo-ink);
+}
+.bo-btn--orange { --btn-bg: var(--bo-orange); --btn-fg: #fff; }
+.bo-btn--ink    { --btn-bg: var(--bo-ink);    --btn-fg: var(--bo-cream); }
+.bo-btn--ghost  { --btn-bg: transparent;       --btn-fg: var(--fg); box-shadow: none; }
+.bo-btn--ghost:hover { background: var(--fg); color: var(--bg); box-shadow: none; transform: none; }
+.bo-btn--leaf   { --btn-bg: var(--bo-leaf);   --btn-fg: #fff; }
+.bo-btn--lg     { padding: 18px 32px; font-size: 16px; }
+.bo-btn--sm     { padding: 9px 16px;  font-size: 12px; }
+
+.bo-btn .bo-btn__arrow {
+  width: 18px; height: 18px;
+  display: inline-block;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12h14M13 6l6 6-6 6' stroke='black' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12h14M13 6l6 6-6 6' stroke='black' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+}
+
+/* =========================================================
+   05. STICKER BURST (offer / NEW / 100% jus)
+   ========================================================= */
+.bo-burst {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 160px;
+  aspect-ratio: 1;
+  font-family: var(--f-display);
+  color: var(--bo-ink);
+  text-align: center;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 12%;
+  transform: rotate(-10deg);
+}
+.bo-burst::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--bo-yellow);
+  clip-path: polygon(
+    50% 0%, 58% 9%, 65% 2%, 70% 14%, 80% 7%, 82% 20%, 93% 16%, 90% 28%,
+    100% 30%, 93% 42%, 100% 50%, 93% 58%, 100% 70%, 90% 72%, 93% 84%, 82% 80%,
+    80% 93%, 70% 86%, 65% 98%, 58% 91%, 50% 100%, 42% 91%, 35% 98%, 30% 86%,
+    20% 93%, 18% 80%, 7% 84%, 10% 72%, 0% 70%, 7% 58%, 0% 50%, 7% 42%,
+    0% 30%, 10% 28%, 7% 16%, 18% 20%, 20% 7%, 30% 14%, 35% 2%, 42% 9%
+  );
+  z-index: 0;
+  filter: drop-shadow(3px 3px 0 var(--bo-ink));
+}
+.bo-burst > * { position: relative; z-index: 1; }
+.bo-burst--orange::before { background: var(--bo-orange); }
+.bo-burst--orange { color: #fff; }
+.bo-burst--leaf::before   { background: var(--bo-leaf); }
+.bo-burst--leaf  { color: #fff; }
+.bo-burst--ink::before    { background: var(--bo-ink); }
+.bo-burst--ink   { color: var(--bo-yellow); }
+.bo-burst--sm { width: 110px; }
+.bo-burst--lg { width: 220px; }
+
+/* Round wax-seal sticker variant */
+.bo-stamp {
+  display: inline-grid;
+  place-items: center;
+  width: 120px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--bo-orange);
+  color: #fff;
+  font-family: var(--f-display);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1;
+  border: 3px dashed #fff;
+  box-shadow: var(--sh-1);
+  transform: rotate(-6deg);
+  padding: 10%;
+}
+
+/* =========================================================
+   06. MARQUEE BAND (yellow ribbon, repeating)
+   ========================================================= */
+.bo-marquee {
+  overflow: hidden;
+  background: var(--bo-yellow);
+  color: var(--bo-ink);
+  border-top: 3px solid var(--bo-ink);
+  border-bottom: 3px solid var(--bo-ink);
+  padding: 12px 0;
+}
+.bo-marquee--orange { background: var(--bo-orange); color: #fff; }
+.bo-marquee--leaf   { background: var(--bo-leaf);   color: #fff; }
+.bo-marquee--ink    { background: var(--bo-ink);    color: var(--bo-yellow); }
+.bo-marquee__track {
+  display: inline-flex;
+  gap: 48px;
+  white-space: nowrap;
+  animation: bo-mq 28s linear infinite;
+  font-family: var(--f-display);
+  font-size: 28px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.bo-marquee__track > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+}
+.bo-marquee__track > span::after {
+  content: "";
+  width: 22px; height: 22px;
+  display: inline-block;
+  background: currentColor;
+  -webkit-mask: var(--icon-orange-slice);
+          mask: var(--icon-orange-slice);
+}
+.bo-marquee--reverse .bo-marquee__track { animation-direction: reverse; }
+@keyframes bo-mq { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+
+/* =========================================================
+   07. CARDS
+   ========================================================= */
+.bo-card {
+  background: var(--surface);
+  border: 2px solid var(--bo-ink);
+  border-radius: var(--r-2);
+  padding: var(--s-5);
+  box-shadow: var(--sh-3);
+  position: relative;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.bo-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 11px 11px 0 var(--bo-ink);
+}
+.bo-card--tilt-l { transform: rotate(-2deg); }
+.bo-card--tilt-r { transform: rotate(2deg); }
+.bo-card--tilt-l:hover { transform: rotate(-2deg) translate(-3px, -3px); }
+.bo-card--tilt-r:hover { transform: rotate(2deg) translate(-3px, -3px); }
+
+.bo-card__media {
+  margin: calc(var(--s-5) * -1) calc(var(--s-5) * -1) var(--s-4);
+  border-bottom: 2px solid var(--bo-ink);
+  border-radius: var(--r-2) var(--r-2) 0 0;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: var(--bo-pulp);
+  position: relative;
+}
+.bo-card__media img,
+.bo-card__media video {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.bo-card__title {
+  font-family: var(--f-display);
+  font-size: 22px;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  line-height: 1;
+}
+.bo-card__sub {
+  font-family: var(--f-italic);
+  font-style: italic;
+  color: var(--fg-muted);
+  font-size: 15px;
+  margin: 0;
+}
+
+/* Polaroid-style photo card */
+.bo-polaroid {
+  background: #fff;
+  padding: 10px 10px 24px;
+  border: 1px solid #1b120822;
+  box-shadow: var(--sh-2);
+  display: inline-block;
+  font-family: var(--f-script);
+  font-size: 22px;
+  text-align: center;
+  color: var(--bo-ink);
+}
+.bo-polaroid img { aspect-ratio: 4/5; object-fit: cover; margin-bottom: 10px; }
+
+/* =========================================================
+   08. BADGES / CHECK BULLETS
+   ========================================================= */
+.bo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font-family: var(--f-mono);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: var(--bo-yellow);
+  color: var(--bo-ink);
+  border: 1.5px solid var(--bo-ink);
+  border-radius: var(--r-pill);
+}
+.bo-badge--orange { background: var(--bo-orange); color: #fff; }
+.bo-badge--leaf   { background: var(--bo-leaf);   color: #fff; }
+.bo-badge--out    { background: transparent; }
+
+.bo-checks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bo-checks li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 15px;
+}
+.bo-checks li::before {
+  content: "";
+  width: 22px; height: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  background: var(--bo-orange);
+  border-radius: 50%;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='10' fill='black'/><path d='M7 12l3.5 3.5L17 9' stroke='white' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='10' fill='black'/><path d='M7 12l3.5 3.5L17 9' stroke='white' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+}
+
+/* =========================================================
+   09. INPUTS
+   ========================================================= */
+.bo-input {
+  width: 100%;
+  padding: 14px 18px;
+  font-family: var(--f-body);
+  font-size: 15px;
+  background: #fff;
+  color: var(--bo-ink);
+  border: 2px solid var(--bo-ink);
+  border-radius: var(--r-pill);
+  outline: none;
+}
+.bo-input::placeholder { color: var(--fg-muted); }
+
+/* =========================================================
+   10. NAVIGATION
+   ========================================================= */
+.bo-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+  background: var(--bg);
+  border-bottom: 2px solid var(--bo-ink);
+}
+.bo-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--f-display);
+  font-size: 22px;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--bo-ink);
+  text-decoration: none;
+}
+.bo-nav__brand .bo-nav__logo {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: block;
+  filter: drop-shadow(2px 2px 0 var(--bo-ink));
+}
+/* Legacy .dot fallback (compat ascendante) */
+.bo-nav__brand .dot {
+  width: 26px; height: 26px;
+  background: var(--bo-orange);
+  border-radius: 50%;
+  border: 2px solid var(--bo-ink);
+  position: relative;
+}
+.bo-nav__brand .dot::after {
+  content: "";
+  position: absolute; top: 4px; left: 8px;
+  width: 6px; height: 4px;
+  background: var(--bo-leaf);
+  border-radius: 50% 50% 0 0;
+  transform: rotate(-25deg);
+}
+.bo-nav__links {
+  display: flex;
+  gap: 28px;
+  font-family: var(--f-display);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  list-style: none;
+  margin: 0; padding: 0;
+}
+.bo-nav__links a {
+  color: var(--fg);
+  text-decoration: none;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+  transition: border-color .2s ease;
+}
+.bo-nav__links a:hover { border-bottom-color: var(--bo-orange); }
+
+/* =========================================================
+   11. ICONS — SVG masks (no external assets)
+   Each is exposed as a CSS variable for reuse.
+   ========================================================= */
+:root {
+  --icon-orange-slice: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='10' fill='black'/><path d='M12 2v20M2 12h20M5 5l14 14M19 5L5 19' stroke='white' stroke-width='1.4' fill='none'/></svg>");
+  --icon-leaf:         url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M21 3c-9 0-15 6-15 14 0 1 0 2 1 3 5-1 9-4 11-8 2-3 3-6 3-9z' fill='black'/></svg>");
+  --icon-drop:         url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2c-4 6-7 10-7 14a7 7 0 0014 0c0-4-3-8-7-14z' fill='black'/></svg>");
+  --icon-star:         url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2l2.6 7h7.4l-6 4.6L18 22l-6-4.5L6 22l2-8.4L2 9h7.4z' fill='black'/></svg>");
+  --icon-heart:        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 21s-7-4.5-9-9c-2-4 2-8 5-8 2 0 3 1 4 2 1-1 2-2 4-2 3 0 7 4 5 8-2 4.5-9 9-9 9z' fill='black'/></svg>");
+  --icon-spark:        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2v8M12 14v8M2 12h8M14 12h8M5 5l5 5M14 14l5 5M19 5l-5 5M10 14l-5 5' stroke='black' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");
+  --icon-arrow:        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12h14M13 6l6 6-6 6' stroke='black' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+}
+
+.bo-icon {
+  display: inline-block;
+  width: 24px; height: 24px;
+  background: currentColor;
+  -webkit-mask-position: center;
+          mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+          mask-size: contain;
+}
+.bo-icon--orange-slice { -webkit-mask-image: var(--icon-orange-slice); mask-image: var(--icon-orange-slice); }
+.bo-icon--leaf         { -webkit-mask-image: var(--icon-leaf);         mask-image: var(--icon-leaf); }
+.bo-icon--drop         { -webkit-mask-image: var(--icon-drop);         mask-image: var(--icon-drop); }
+.bo-icon--star         { -webkit-mask-image: var(--icon-star);         mask-image: var(--icon-star); }
+.bo-icon--heart        { -webkit-mask-image: var(--icon-heart);        mask-image: var(--icon-heart); }
+.bo-icon--spark        { -webkit-mask-image: var(--icon-spark);        mask-image: var(--icon-spark); }
+.bo-icon--arrow        { -webkit-mask-image: var(--icon-arrow);        mask-image: var(--icon-arrow); }
+
+/* Color helpers */
+.text-orange { color: var(--bo-orange); }
+.text-leaf   { color: var(--bo-leaf); }
+.text-yellow { color: var(--bo-yellow); }
+.text-ink    { color: var(--bo-ink); }
+.text-cream  { color: var(--bo-cream); }
+.bg-orange   { background: var(--bo-orange); color: #fff; }
+.bg-yellow   { background: var(--bo-yellow); color: var(--bo-ink); }
+.bg-leaf     { background: var(--bo-leaf);   color: #fff; }
+.bg-cream    { background: var(--bo-cream); }
+.bg-paper    { background: var(--bo-paper); }
+.bg-ink      { background: var(--bo-ink);    color: var(--bo-cream); }
+.bg-sky      { background: var(--bo-sky); }
+
+/* =========================================================
+   12. DRAWN ORANGE — pure CSS illustration
+   ========================================================= */
+.bo-orange-illu {
+  position: relative;
+  width: 220px;
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 35% 35%, #FFB871, var(--bo-orange) 60%, var(--bo-orange-deep) 100%);
+  border-radius: 50%;
+  box-shadow:
+    inset -16px -20px 40px rgba(0,0,0,.18),
+    inset 14px 14px 30px rgba(255,255,255,.18),
+    var(--sh-3);
+  border: 3px solid var(--bo-ink);
+}
+.bo-orange-illu::before {
+  /* Stem dot */
+  content: "";
+  position: absolute;
+  top: 8%; left: 50%;
+  transform: translateX(-50%);
+  width: 14px; height: 14px;
+  background: var(--bo-orange-deep);
+  border-radius: 50%;
+}
+.bo-orange-illu::after {
+  /* Leaf */
+  content: "";
+  position: absolute;
+  top: -6%; left: 56%;
+  width: 70px; height: 38px;
+  background: var(--bo-leaf);
+  border-radius: 100% 0 100% 0;
+  transform: rotate(-25deg);
+  border: 3px solid var(--bo-ink);
+  box-shadow: var(--sh-1);
+}
+
+/* Slice (half-orange illustration) */
+.bo-orange-slice {
+  width: 200px;
+  aspect-ratio: 1;
+  background:
+    repeating-conic-gradient(from 0deg, transparent 0deg 22deg, #ffffff20 22deg 23deg, transparent 23deg 45deg),
+    radial-gradient(circle at center, #fff 12%, var(--bo-pulp) 14%, var(--bo-orange) 70%, var(--bo-orange-deep) 100%);
+  border-radius: 50%;
+  border: 3px solid var(--bo-ink);
+  box-shadow: var(--sh-2);
+  position: relative;
+}
+
+/* =========================================================
+   13. CLOUDS / SKY band
+   ========================================================= */
+.bo-sky-band {
+  background: linear-gradient(180deg, var(--bo-sky) 0%, #e6f3fa 100%);
+  position: relative;
+  padding: 80px 0;
+  text-align: center;
+}
+.bo-cloud {
+  position: absolute;
+  background: #fff;
+  border-radius: 999px;
+  filter: blur(0.4px);
+  opacity: 0.95;
+}
+.bo-cloud::before,
+.bo-cloud::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+}
+.bo-cloud--1 { width: 160px; height: 50px; top: 14%; left: 8%; }
+.bo-cloud--1::before { width: 70px; height: 70px; top: -28px; left: 24px; }
+.bo-cloud--1::after  { width: 50px; height: 50px; top: -18px; left: 90px; }
+.bo-cloud--2 { width: 220px; height: 60px; top: 30%; right: 6%; }
+.bo-cloud--2::before { width: 80px; height: 80px; top: -34px; left: 30px; }
+.bo-cloud--2::after  { width: 60px; height: 60px; top: -22px; left: 110px; }
+.bo-cloud--3 { width: 120px; height: 38px; bottom: 16%; left: 38%; }
+.bo-cloud--3::before { width: 50px; height: 50px; top: -22px; left: 18px; }
+.bo-cloud--3::after  { width: 40px; height: 40px; top: -16px; left: 60px; }
+
+/* =========================================================
+   14. STATS / NUMBERS
+   ========================================================= */
+.bo-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 3px solid var(--bo-ink);
+  border-bottom: 3px solid var(--bo-ink);
+  background: var(--bo-cream);
+}
+.bo-stat {
+  padding: 36px 24px;
+  text-align: center;
+  border-right: 2px solid var(--bo-ink);
+}
+.bo-stat:last-child { border-right: none; }
+.bo-stat__num {
+  font-family: var(--f-display);
+  font-size: clamp(40px, 5vw, 76px);
+  line-height: 0.95;
+  color: var(--bo-orange);
+}
+.bo-stat__num span {
+  font-family: var(--f-italic);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--bo-ink);
+}
+.bo-stat__label {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-top: 8px;
+}
+
+/* =========================================================
+   15. FOOTER
+   ========================================================= */
+.bo-footer {
+  background: var(--bo-ink);
+  color: var(--bo-cream);
+  padding: 64px 32px 24px;
+}
+.bo-footer__top {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid #faf0dc33;
+}
+.bo-footer__brand {
+  font-family: var(--f-display);
+  font-size: 48px;
+  text-transform: uppercase;
+  line-height: 0.9;
+  color: var(--bo-yellow);
+}
+.bo-footer__brand em {
+  font-family: var(--f-italic);
+  color: var(--bo-orange);
+  font-style: italic;
+}
+.bo-footer__col h4 {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bo-orange);
+  margin: 0 0 16px;
+}
+.bo-footer__col ul {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.bo-footer__col a {
+  color: var(--bo-cream);
+  text-decoration: none;
+  font-family: var(--f-display);
+  font-size: 16px;
+}
+.bo-footer__col a:hover { color: var(--bo-yellow); }
+.bo-footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #c0a888;
+}
+
+/* =========================================================
+   16. UTILITIES
+   ========================================================= */
+.bo-wrap         { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+.bo-section      { padding: 96px 0; position: relative; }
+.bo-section--sm  { padding: 56px 0; }
+.bo-grid-2       { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.bo-grid-3       { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.bo-grid-4       { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.bo-tilt-l       { transform: rotate(-3deg); }
+.bo-tilt-r       { transform: rotate(3deg); }
+.bo-divider      { height: 2px; background: var(--bo-ink); border: none; margin: 32px 0; }
+.bo-divider--dot { height: 0; border-top: 2px dashed var(--bo-ink); background: transparent; }
+
+/* DS showcase layout */
+.ds-shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+.ds-side {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  border-right: 2px solid var(--bo-ink);
+  background: var(--bo-paper);
+  padding: 28px 24px;
+  overflow-y: auto;
+}
+.ds-side__title {
+  font-family: var(--f-display);
+  font-size: 32px;
+  line-height: 1;
+  color: var(--bo-ink);
+  margin: 0 0 4px;
+}
+.ds-side__title em {
+  font-family: var(--f-italic);
+  color: var(--bo-orange);
+}
+.ds-side__meta {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 24px;
+}
+.ds-toc { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+.ds-toc a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px;
+  color: var(--fg);
+  text-decoration: none;
+  font-family: var(--f-display);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border: 2px solid transparent;
+  border-radius: var(--r-pill);
+}
+.ds-toc a:hover, .ds-toc a.active {
+  background: var(--bo-yellow);
+  border-color: var(--bo-ink);
+}
+.ds-toc a .num {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  opacity: 0.6;
+}
+.ds-main { padding: 56px; max-width: 1400px; }
+.ds-section-block { margin-bottom: 96px; scroll-margin-top: 24px; }
+.ds-section-block__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  border-bottom: 2px solid var(--bo-ink);
+  padding-bottom: 14px;
+  margin-bottom: 28px;
+}
+.ds-section-block__title {
+  font-family: var(--f-display);
+  font-size: 48px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.ds-section-block__num {
+  font-family: var(--f-mono);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+}
+
+/* Swatch */
+.bo-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.bo-swatch__chip {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2px solid var(--bo-ink);
+  border-radius: var(--r-2);
+  box-shadow: var(--sh-1);
+}
+.bo-swatch__meta {
+  display: flex; justify-content: space-between;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Floating doodle */
+.bo-doodle {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .ds-shell { grid-template-columns: 1fr; }
+  .ds-side { position: relative; height: auto; border-right: none; border-bottom: 2px solid var(--bo-ink); }
+  .ds-main { padding: 32px 20px; }
+  .bo-grid-2, .bo-grid-3, .bo-grid-4 { grid-template-columns: 1fr; }
+  .bo-stats { grid-template-columns: 1fr 1fr; }
+  .bo-stat { border-right: none; border-bottom: 2px solid var(--bo-ink); }
+  .bo-footer__top { grid-template-columns: 1fr 1fr; }
+  .bo-footer__brand { font-size: 36px; }
+}
+
+/* =========================================================
+   17. CARTOON USA REINFORCEMENTS
+   POW! bursts, halftone, speech bubbles, warning stripes
+   ========================================================= */
+
+:root {
+  --bo-red:       #E63946;
+  --bo-red-deep:  #B71C1C;
+  --bo-blue:      #2B6CDF;
+  --bo-blue-deep: #143A8A;
+
+  --f-cartoon:    "Lilita One", "Archivo Black", Impact, sans-serif;
+  --f-action:     "Sigmar", "Lilita One", Impact, sans-serif;
+
+  --sh-cartoon:   8px 8px 0 var(--bo-ink);
+  --sh-cartoon-lg:12px 12px 0 var(--bo-ink);
+  --border-toon:  3px solid var(--bo-ink);
+}
+
+/* Chunky cartoon display */
+.bo-cartoon-display {
+  font-family: var(--f-cartoon);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: 0;
+}
+.bo-cartoon-display em {
+  font-family: var(--f-italic);
+  font-style: italic;
+  font-weight: 700;
+  color: var(--bo-orange);
+  text-transform: none;
+}
+.bo-cartoon-stroke {
+  -webkit-text-stroke: 2px var(--bo-ink);
+  paint-order: stroke fill;
+}
+
+/* POW! / BAM! / ZAP! comic burst */
+.bo-pow {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 200px;
+  aspect-ratio: 1;
+  font-family: var(--f-action);
+  text-transform: uppercase;
+  color: var(--bo-yellow);
+  -webkit-text-stroke: 2px var(--bo-ink);
+  paint-order: stroke fill;
+  text-align: center;
+  font-size: 44px;
+  line-height: 0.9;
+  transform: rotate(-12deg);
+  padding: 14%;
+}
+.bo-pow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--bo-red);
+  clip-path: polygon(
+    50% 0%, 60% 18%, 75% 5%, 78% 24%, 95% 14%, 90% 35%,
+    100% 40%, 86% 50%, 100% 62%, 88% 68%, 95% 88%, 78% 80%,
+    72% 95%, 60% 84%, 50% 100%, 40% 84%, 28% 95%, 22% 80%,
+    5% 88%, 12% 68%, 0% 62%, 14% 50%, 0% 40%, 10% 35%,
+    5% 14%, 22% 24%, 25% 5%, 40% 18%
+  );
+  filter: drop-shadow(5px 5px 0 var(--bo-ink));
+  z-index: 0;
+}
+.bo-pow > * { position: relative; z-index: 1; }
+.bo-pow--yellow::before { background: var(--bo-yellow); }
+.bo-pow--yellow { color: var(--bo-red); }
+.bo-pow--orange::before { background: var(--bo-orange); }
+.bo-pow--blue::before { background: var(--bo-blue); }
+.bo-pow--ink::before { background: var(--bo-ink); }
+.bo-pow--ink { color: var(--bo-yellow); }
+.bo-pow--sm { width: 140px; font-size: 28px; }
+.bo-pow--lg { width: 280px; font-size: 64px; }
+
+/* Action lines radiating (place behind any element) */
+.bo-action-rays {
+  position: absolute;
+  inset: -60px;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    repeating-conic-gradient(
+      from 0deg,
+      var(--bo-yellow) 0deg 6deg,
+      transparent 6deg 18deg
+    );
+  -webkit-mask: radial-gradient(circle, transparent 35%, #000 60%);
+          mask: radial-gradient(circle, transparent 35%, #000 60%);
+  opacity: .9;
+  animation: bo-spin 30s linear infinite;
+}
+@keyframes bo-spin { to { transform: rotate(360deg); } }
+
+/* Comic speech bubble */
+.bo-speech {
+  position: relative;
+  background: #fff;
+  border: 3px solid var(--bo-ink);
+  border-radius: 28px;
+  padding: 18px 24px;
+  font-family: var(--f-cartoon);
+  font-size: 18px;
+  text-transform: uppercase;
+  display: inline-block;
+  box-shadow: var(--sh-2);
+  max-width: 320px;
+  color: var(--bo-ink);
+  line-height: 1.1;
+}
+.bo-speech::before {
+  content: "";
+  position: absolute;
+  bottom: -22px;
+  left: 36px;
+  width: 28px;
+  height: 28px;
+  background: #fff;
+  border-right: 3px solid var(--bo-ink);
+  border-bottom: 3px solid var(--bo-ink);
+  transform: rotate(45deg);
+  border-radius: 0 0 6px 0;
+}
+.bo-speech--yellow { background: var(--bo-yellow); }
+.bo-speech--yellow::before { background: var(--bo-yellow); }
+.bo-speech--orange { background: var(--bo-orange); color: #fff; }
+.bo-speech--orange::before { background: var(--bo-orange); }
+
+/* Halftone dot patterns (Lichtenstein) */
+.bo-halftone {
+  background-color: transparent;
+  background-image: radial-gradient(circle, var(--bo-ink) 1.5px, transparent 2px);
+  background-size: 10px 10px;
+}
+.bo-halftone--orange {
+  background-color: var(--bo-orange);
+  background-image: radial-gradient(circle, var(--bo-orange-deep) 2.5px, transparent 3px);
+  background-size: 14px 14px;
+}
+.bo-halftone--yellow {
+  background-color: var(--bo-yellow);
+  background-image: radial-gradient(circle, var(--bo-orange) 2.5px, transparent 3px);
+  background-size: 14px 14px;
+}
+.bo-halftone--red {
+  background-color: var(--bo-red);
+  background-image: radial-gradient(circle, var(--bo-red-deep) 2.5px, transparent 3px);
+  background-size: 14px 14px;
+}
+
+/* Warning tape (yellow + black diagonal stripes) */
+.bo-warning {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--bo-yellow) 0 26px,
+    var(--bo-ink) 26px 52px
+  );
+  padding: 14px 0;
+  border-top: 4px solid var(--bo-ink);
+  border-bottom: 4px solid var(--bo-ink);
+  position: relative;
+  overflow: hidden;
+}
+.bo-warning__plate {
+  background: var(--bo-yellow);
+  display: inline-block;
+  padding: 8px 24px;
+  border: 3px solid var(--bo-ink);
+  font-family: var(--f-cartoon);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 18px;
+  color: var(--bo-ink);
+  position: relative;
+  margin: 0 18px;
+}
+
+/* Cartoon-thick frame & buttons */
+.bo-cartoon-frame {
+  border: 4px solid var(--bo-ink);
+  box-shadow: var(--sh-cartoon-lg);
+  background: #fff;
+  border-radius: 20px;
+}
+.bo-btn--toon {
+  border-width: 3px;
+  font-family: var(--f-cartoon);
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  padding: 16px 28px;
+  box-shadow: var(--sh-cartoon);
+}
+.bo-btn--toon:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 11px 11px 0 var(--bo-ink);
+}
+
+/* Lichtenstein star sticker */
+.bo-toon-star {
+  display: inline-grid;
+  place-items: center;
+  width: 140px;
+  aspect-ratio: 1;
+  background: var(--bo-yellow);
+  color: var(--bo-ink);
+  font-family: var(--f-cartoon);
+  font-size: 18px;
+  text-align: center;
+  line-height: 1;
+  text-transform: uppercase;
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%,
+    50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+  );
+  filter: drop-shadow(4px 4px 0 var(--bo-ink));
+  padding: 16% 14%;
+}
+
+/* Tilted "label" tag (price tag style) */
+.bo-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px 10px 26px;
+  background: var(--bo-red);
+  color: #fff;
+  font-family: var(--f-cartoon);
+  text-transform: uppercase;
+  font-size: 14px;
+  border: 3px solid var(--bo-ink);
+  position: relative;
+  transform: rotate(-3deg);
+  box-shadow: var(--sh-2);
+  clip-path: polygon(8% 0, 100% 0, 100% 100%, 8% 100%, 0 50%);
+}

@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ピンクスパイダー × チョコレート — Cacao Noir 72%</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Caveat+Brush&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=RocknRoll+One&family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" />
+  <link rel="stylesheet" href="pink-spider.css" />
+  <style>
+    /* ====== Page-specific overrides for the scroll-video landing ====== */
+
+    body {
+      cursor: none;
+      overflow-x: hidden;
+    }
+    body.no-custom-cursor { cursor: auto; }
+
+    /* Sticky top nav (override DS sticky to fixed for the video stage) */
+    .ps-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      backdrop-filter: blur(6px);
+      background: color-mix(in srgb, var(--bg) 78%, transparent);
+    }
+
+    /* Top + bottom marquees framing the page */
+    .marquee-top { position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .marquee-bot { position: fixed; bottom: 0; left: 0; right: 0; z-index: 40; }
+
+    /* ============= VIDEO STAGE — fixed, centered, max 600px ============= */
+    .stage {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .stage__frame {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+    }
+    .stage__video {
+      display: block;
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 20px 60px rgba(242, 91, 167, 0.25));
+    }
+
+    /* Burst stickers floating around the video */
+    .stage__burst {
+      position: absolute;
+      pointer-events: none;
+      z-index: 6;
+    }
+    .stage__burst--tl { top: -40px; left: -40px; }
+    .stage__burst--br { bottom: -30px; right: -50px; }
+
+    /* Hard frame around the video, packaging style */
+    .stage__corners::before,
+    .stage__corners::after,
+    .stage__corners > i:nth-child(1),
+    .stage__corners > i:nth-child(2) {
+      content: "";
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border: 3px solid var(--ps-pink);
+    }
+    .stage__corners::before { top: -14px; left: -14px; border-right: none; border-bottom: none; }
+    .stage__corners::after  { top: -14px; right: -14px; border-left: none; border-bottom: none; }
+    .stage__corners > i:nth-child(1) { bottom: -14px; left: -14px; border-right: none; border-top: none; }
+    .stage__corners > i:nth-child(2) { bottom: -14px; right: -14px; border-left: none; border-top: none; }
+
+    /* ============= SCROLL TRACK + PANELS ============= */
+    .scroll-track {
+      position: relative;
+      z-index: 3;
+      height: 600vh;
+      padding-top: 140px; /* nav + top marquee */
+    }
+
+    .panel {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 5vw;
+      pointer-events: none;
+    }
+    .panel--left   { justify-content: flex-start; }
+    .panel--right  { justify-content: flex-end; }
+    .panel--center { justify-content: center; text-align: center; }
+
+    .copy {
+      max-width: 380px;
+      pointer-events: auto;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .9s cubic-bezier(.7,0,.2,1), transform .9s cubic-bezier(.7,0,.2,1);
+    }
+    .copy--wide { max-width: 720px; }
+    .copy.is-visible { opacity: 1; transform: translateY(0); }
+
+    .copy h2 {
+      font-family: var(--f-pack);
+      font-style: italic;
+      transform: skewX(-8deg);
+      display: block;
+      font-size: clamp(40px, 5.4vw, 84px);
+      line-height: .9;
+      margin: 0 0 var(--s-3);
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+    }
+    .copy h2 em {
+      font-style: italic;
+      color: var(--ps-pink);
+      font-family: var(--f-script);
+      transform: skewX(8deg);
+      display: inline-block;
+      font-size: 0.9em;
+      margin-left: 6px;
+    }
+    .copy p {
+      color: var(--fg);
+      opacity: .85;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-top: var(--s-3);
+    }
+    .copy .ps-section-label { margin-bottom: var(--s-3); }
+    .copy__chip-row {
+      display: flex;
+      gap: var(--s-2);
+      margin-top: var(--s-4);
+      flex-wrap: wrap;
+    }
+
+    /* ============= HERO ============= */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4vw;
+      pointer-events: none;
+      text-align: center;
+      position: relative;
+    }
+    .hero__kata {
+      font-family: var(--f-jp-display);
+      font-size: clamp(80px, 14vw, 240px);
+      line-height: 0.85;
+      color: var(--ps-pink);
+      -webkit-text-stroke: 2px var(--ps-cream);
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+      mix-blend-mode: screen;
+    }
+    .hero__title {
+      font-family: var(--f-pack);
+      font-style: italic;
+      transform: skewX(-8deg);
+      font-size: clamp(40px, 6vw, 96px);
+      text-transform: uppercase;
+      line-height: .9;
+      margin: 0;
+      color: var(--ps-cream);
+    }
+    .hero__title span {
+      display: inline-block;
+      transform: skewX(8deg);
+    }
+    .hero__title em {
+      color: var(--ps-pink);
+      font-style: italic;
+    }
+    .hero__sub {
+      font-family: var(--f-mono);
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      margin-top: var(--s-5);
+      max-width: 520px;
+    }
+    .hero__scroll {
+      position: absolute;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--s-3);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ps-cream);
+    }
+    .hero__scroll::after {
+      content: "";
+      width: 2px;
+      height: 44px;
+      background: var(--ps-pink);
+      animation: scroll-hint 1.6s ease-in-out infinite;
+      transform-origin: top;
+    }
+    @keyframes scroll-hint {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.3); }
+    }
+
+    /* ============= VERTICAL DATA STRIPS ON THE SIDES ============= */
+    .side-data {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      z-index: 8;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      pointer-events: none;
+    }
+    .side-data--l { left: 18px; transform-origin: left center; transform: translateY(-50%) rotate(-90deg) translateX(-50%); }
+    .side-data--r { right: 18px; transform-origin: right center; transform: translateY(-50%) rotate(90deg) translateX(50%); }
+
+    /* ============= AFTER-TRACK SECTIONS (releasing fixed video at end) ============= */
+    .after-track {
+      position: relative;
+      z-index: 10;
+      background: var(--ps-cobalt-ink);
+      border-top: 4px solid var(--ps-pink);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-bottom: 4px solid var(--ps-pink);
+    }
+    .metric {
+      padding: var(--s-7) var(--s-5);
+      border-right: 2px solid var(--ps-pink);
+      text-align: center;
+    }
+    .metric:last-child { border-right: none; }
+    .metric__num {
+      font-family: var(--f-display);
+      font-size: clamp(56px, 9vw, 140px);
+      line-height: .9;
+      color: var(--ps-pink);
+      -webkit-text-stroke: 1px var(--ps-cream);
+    }
+    .metric__label {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ps-cream);
+      margin-top: var(--s-3);
+    }
+
+    .product-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .product-strip__choco {
+      min-height: 60vh;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: var(--s-6);
+    }
+    .product-strip__choco .ps-burst {
+      position: absolute;
+      top: var(--s-5);
+      left: var(--s-5);
+    }
+    .product-strip__choco .pack {
+      font-family: var(--f-pack);
+      font-style: italic;
+      transform: skewX(-8deg);
+      color: var(--ps-cream);
+      font-size: clamp(40px, 5vw, 80px);
+      line-height: .9;
+      text-transform: uppercase;
+    }
+    .product-strip__copy {
+      background: var(--ps-cream);
+      color: var(--ps-ink);
+      padding: var(--s-7);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--s-4);
+    }
+    .product-strip__copy h3 {
+      font-family: var(--f-display);
+      font-size: clamp(36px, 4vw, 64px);
+      line-height: 1;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .product-strip__copy p {
+      color: var(--ps-ink);
+      opacity: .8;
+      max-width: 460px;
+    }
+
+    .footer {
+      padding: var(--s-7) var(--s-6) var(--s-5);
+      background: var(--ps-cobalt-ink);
+      color: var(--ps-cream);
+      border-top: 2px solid var(--ps-pink);
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: var(--s-6);
+    }
+    .footer__brand {
+      font-family: var(--f-jp-display);
+      font-size: clamp(48px, 6vw, 96px);
+      line-height: .9;
+      color: var(--ps-pink);
+      -webkit-text-stroke: 1px var(--ps-cream);
+    }
+    .footer__brand small {
+      display: block;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ps-cream);
+      margin-top: var(--s-3);
+      -webkit-text-stroke: 0;
+    }
+    .footer__col h4 {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ps-pink);
+      margin: 0 0 var(--s-3);
+    }
+    .footer__col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-2);
+    }
+    .footer__col a {
+      color: var(--ps-cream);
+      text-decoration: none;
+      font-family: var(--f-pack);
+      font-style: italic;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .footer__col a:hover { color: var(--ps-pink); }
+
+    .footer__bottom {
+      grid-column: 1/-1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: var(--s-5);
+      border-top: 2px dashed var(--ps-pink);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      flex-wrap: wrap;
+      gap: var(--s-3);
+    }
+
+    /* progress bar */
+    .progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: var(--ps-pink);
+      z-index: 999;
+      width: 0%;
+    }
+
+    @media (max-width: 800px) {
+      .ps-nav__links { display: none; }
+      .stage__frame { max-width: 88vw; }
+      .stage__burst { display: none; }
+      .panel { padding: 0 1.2rem; }
+      .copy { max-width: 80vw; }
+      .metrics { grid-template-columns: 1fr; }
+      .metric { border-right: none; border-bottom: 2px solid var(--ps-pink); }
+      .product-strip { grid-template-columns: 1fr; }
+      .footer { grid-template-columns: 1fr; }
+      .side-data { display: none; }
+    }
+  </style>
+</head>
+<body class="grain">
+
+  <div class="progress" id="progress"></div>
+
+  <!-- Custom cursor -->
+  <div class="ps-cursor" id="cursor" aria-hidden="true"></div>
+
+  <!-- ============== TOP NAV ============== -->
+  <nav class="ps-nav" role="navigation">
+    <div style="display:flex; align-items:center; gap: var(--s-4);">
+      <span class="ps-nav__brand">カカオ</span>
+      <span class="ps-pack" style="font-size: 22px; color: var(--ps-cream);">Cacao Noir</span>
+    </div>
+    <div class="ps-nav__links">
+      <a href="#" data-hover>Origines</a>
+      <a href="#" data-hover>Atelier</a>
+      <a href="#" data-hover>Releases</a>
+      <a href="#" data-hover>Journal</a>
+    </div>
+    <a href="#" class="ps-btn ps-btn--pink ps-btn--sm" data-hover><span>Commander ✱</span></a>
+  </nav>
+
+  <!-- ============== TOP MARQUEE ============== -->
+  <div class="ps-marquee ps-marquee--pink marquee-top">
+    <div class="ps-marquee__track">
+      <span>ダークチョコレート 72%</span>
+      <span>ÉDITION GRAND CRU</span>
+      <span>NEW SOUND!! NEW TASTE!!</span>
+      <span>ピンクスパイダー × CACAO</span>
+      <span>SINGLE FÈVE — TRIPLE PRESSE</span>
+      <span>ダークチョコレート 72%</span>
+      <span>ÉDITION GRAND CRU</span>
+      <span>NEW SOUND!! NEW TASTE!!</span>
+      <span>ピンクスパイダー × CACAO</span>
+      <span>SINGLE FÈVE — TRIPLE PRESSE</span>
+    </div>
+  </div>
+
+  <!-- ============== SIDE DATA STRIPS ============== -->
+  <div class="side-data side-data--l">EAN 4 988102 887773 ✱ LOT 042 ✱ ÉQUATEUR ✱ 2026-04-24</div>
+  <div class="side-data side-data--r">CACAO 72% ✱ FÈVE NACIONAL ✱ ESMERALDAS ✱ NET 80G</div>
+
+  <!-- ============== VIDEO STAGE (fixed centered) ============== -->
+  <div class="stage" aria-hidden="true">
+    <div class="stage__frame">
+      <div class="stage__corners"><i></i><i></i></div>
+
+      <video
+        id="scrollVideo"
+        class="stage__video"
+        src="choco-scroll.mp4"
+        muted
+        playsinline
+        preload="auto"
+        disablepictureinpicture
+        tabindex="-1"
+      ></video>
+
+      <!-- Sticker bursts pinned to the video frame -->
+      <div class="ps-burst ps-burst--sm stage__burst stage__burst--tl">
+        <div>
+          <div style="font-family: var(--f-pack); font-style: italic; font-size: 26px; line-height:1;">NEW</div>
+          <div style="font-family: var(--f-mono); font-size: 9px; letter-spacing: .15em; margin-top:4px;">SOUND!!</div>
+        </div>
+      </div>
+      <div class="ps-burst ps-burst--sm ps-burst--pink stage__burst stage__burst--br" style="transform: rotate(12deg);">
+        <div>
+          <div style="font-family: var(--f-display); font-size: 30px; line-height:1;">72%</div>
+          <div style="font-family: var(--f-mono); font-size: 9px; letter-spacing: .15em; margin-top:4px;">CACAO</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============== SCROLL TRACK ============== -->
+  <main class="scroll-track">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="copy copy--wide is-visible" style="text-align:center;">
+        <div class="ps-section-label" style="justify-content:center;">CHAPITRE 00 — OUVERTURE</div>
+        <div class="hero__kata">チョコ<br/>レート</div>
+        <h1 class="hero__title"><span>L'art noir de la <em>tablette.</em></span></h1>
+        <p class="hero__sub">Une seule fève. Trois mains. Soixante-douze heures.<br/>Faites défiler pour révéler la matière.</p>
+      </div>
+      <div class="hero__scroll">
+        Scroll
+      </div>
+    </section>
+
+    <!-- PANEL 01 — gauche -->
+    <section class="panel panel--left">
+      <div class="copy">
+        <div class="ps-section-label">Chapitre 01 — Origine</div>
+        <h2>Née dans <em>la brume</em></h2>
+        <p>
+          Récoltée à la main dans les vallées d'Esmeraldas, notre cacao Nacional pousse
+          sous l'ombre des bananiers, à 600 mètres d'altitude. Une variété rare,
+          presque éteinte, que nous aidons à faire renaître depuis 2014.
+        </p>
+        <div class="copy__chip-row">
+          <span class="ps-badge ps-badge--pink">エクアドル</span>
+          <span class="ps-badge">600 m</span>
+          <span class="ps-badge ps-badge--out">Nacional</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 02 — droite -->
+    <section class="panel panel--right">
+      <div class="copy">
+        <div class="ps-section-label">Chapitre 02 — Fermentation</div>
+        <h2>Six jours <em>de teck</em></h2>
+        <p>
+          Les fèves reposent dans des caisses de teck centenaire. Sous des feuilles
+          de bananier, la pulpe se transforme. C'est ici que naissent les notes
+          de fruits rouges et de tabac blond.
+        </p>
+        <div class="ps-data-strip ps-data-strip--inv" style="margin-top: var(--s-4); display:inline-flex;">
+          T° 28° &nbsp; HUMIDITÉ 82% &nbsp; DURÉE 6 J
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 03 — gauche -->
+    <section class="panel panel--left">
+      <div class="copy">
+        <div class="ps-section-label">Chapitre 03 — Torréfaction</div>
+        <h2>Un feu <em>silencieux</em></h2>
+        <p>
+          38 minutes à 118°C. Pas une seconde de plus. Notre torréfacteur à tambour
+          cuivré, fabriqué en 1962, exhale un parfum de noisette grillée et d'écorce
+          d'agrume. Chaque lot est unique.
+        </p>
+        <div class="ps-barcode" style="margin-top: var(--s-4);">
+          <span></span><span class="thin"></span><span class="thick"></span><span></span><span class="gap"></span>
+          <span class="thin"></span><span></span><span class="thick"></span><span></span><span class="thin"></span>
+          <span class="gap"></span><span class="thick"></span><span></span><span class="thin"></span><span></span>
+          <span class="thick"></span><span class="thin"></span><span></span><span class="gap"></span>
+          <span></span><span class="thick"></span><span class="thin"></span><span></span><span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 04 — droite -->
+    <section class="panel panel--right">
+      <div class="copy">
+        <div class="ps-section-label">Chapitre 04 — Conchage</div>
+        <h2>72 heures <em>de soie</em></h2>
+        <p>
+          Le chocolat tourne, encore et encore. Les arômes amers s'évaporent,
+          la texture devient soie. Un geste hérité du XIXe siècle, pratiqué
+          aujourd'hui sur des meules en granit du Jura.
+        </p>
+        <div class="copy__chip-row">
+          <span class="ps-badge ps-badge--red">72 H</span>
+          <span class="ps-badge">GRANIT JURA</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 05 — gauche -->
+    <section class="panel panel--left">
+      <div class="copy">
+        <div class="ps-section-label">Chapitre 05 — Tempérage</div>
+        <h2>Le brillant <em>n'est pas un hasard</em></h2>
+        <p>
+          45°C. 27°C. 31°C. Une danse précise des températures qui aligne les
+          cristaux du beurre de cacao. C'est ce qui donne à notre tablette
+          son éclat profond et son cassant net.
+        </p>
+        <div class="ps-data-strip" style="margin-top: var(--s-4); display:inline-flex;">
+          45° → 27° → 31° &nbsp; CYCLE I
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 06 — droite -->
+    <section class="panel panel--right">
+      <div class="copy">
+        <div class="ps-section-label">Chapitre 06 — Dégustation</div>
+        <h2>Une carrée. <em>Tout y est.</em></h2>
+        <p>
+          Posez-la sur le palais. Ne croquez pas. Laissez les 72% se déployer :
+          framboise, café noir, miel de châtaignier, et cette finale fumée
+          qui dure quarante secondes.
+        </p>
+        <a href="#" class="ps-btn ps-btn--pink" data-hover style="margin-top: var(--s-5);">
+          <span>Commander la tablette ✱</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============== AFTER-TRACK ============== -->
+  <section class="after-track">
+
+    <!-- METRICS -->
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric__num">72%</div>
+        <div class="metric__label">Cacao pur Équateur</div>
+      </div>
+      <div class="metric">
+        <div class="metric__num">03</div>
+        <div class="metric__label">Ingrédients seulement</div>
+      </div>
+      <div class="metric">
+        <div class="metric__num">14</div>
+        <div class="metric__label">Années de fève rare</div>
+      </div>
+    </div>
+
+    <!-- PRODUCT STRIP -->
+    <div class="product-strip">
+      <div class="product-strip__choco ps-chocolate-tile">
+        <div class="ps-burst ps-burst--pink">
+          <div>
+            <div style="font-family: var(--f-pack); font-style: italic; font-size: 22px; line-height: 1;">DARK</div>
+            <div style="font-family: var(--f-display); font-size: 32px; line-height: 1; margin-top:2px;">72</div>
+            <div style="font-family: var(--f-mono); font-size: 10px; letter-spacing: .15em; margin-top:4px;">% CACAO</div>
+          </div>
+        </div>
+        <div class="pack">Tablette<br/>N°<span style="color: var(--ps-pink);">042</span></div>
+      </div>
+      <div class="product-strip__copy">
+        <div class="ps-section-label" style="color: var(--ps-pink);">RELEASE 042 — ÉDITION LIMITÉE</div>
+        <h3>Le single<br/>chocolaté <span class="ps-script" style="color: var(--ps-red); font-size: 1.1em;">de l'année.</span></h3>
+        <p>
+          800 tablettes. Numérotées à la main. Emballées dans un foil argenté froissé,
+          scellées d'un sticker rouge. Disponible dès le 12 mai en édition pré-commande.
+        </p>
+        <div class="ps-data-strip ps-data-strip--inv" style="display:inline-flex; align-self:flex-start;">
+          PRÉ-COMMANDE &nbsp; 12 MAI &nbsp; 800 EX. &nbsp; 18€
+        </div>
+        <div style="display: flex; gap: var(--s-3); margin-top: var(--s-3);">
+          <a href="#" class="ps-btn ps-btn--cobalt" data-hover><span>Réserver ✱</span></a>
+          <a href="#" class="ps-btn ps-btn--ghost" data-hover><span>Lire la fiche</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM MARQUEE -->
+    <div class="ps-marquee ps-marquee--red">
+      <div class="ps-marquee__track">
+        <span>NEW SOUND!!</span>
+        <span>ピンクスパイダー</span>
+        <span>72% CACAO</span>
+        <span>ÉDITION 042</span>
+        <span>FÈVE NACIONAL</span>
+        <span>NEW SOUND!!</span>
+        <span>ピンクスパイダー</span>
+        <span>72% CACAO</span>
+        <span>ÉDITION 042</span>
+        <span>FÈVE NACIONAL</span>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div>
+        <div class="footer__brand">
+          カカオ<br/>ノワール
+          <small>Cacao Noir × Pink Spider — Atelier Lyon, 2026</small>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h4>Atelier</h4>
+        <ul>
+          <li><a href="#" data-hover>Histoire</a></li>
+          <li><a href="#" data-hover>Process</a></li>
+          <li><a href="#" data-hover>Fèves</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#" data-hover>Boutique</a></li>
+          <li><a href="#" data-hover>Presse</a></li>
+          <li><a href="#" data-hover>Newsletter</a></li>
+        </ul>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 CACAO NOIR — TOUS DROITS RÉSERVÉS</span>
+        <span>EAN 4 988102 887773 — LOT 042</span>
+      </div>
+    </footer>
+
+  </section>
+
+  <script>
+    /* ============================================================
+       Scroll-scrubbed video
+       ============================================================ */
+    const video = document.getElementById('scrollVideo');
+    const track = document.querySelector('.scroll-track');
+    const progressBar = document.getElementById('progress');
+
+    video.muted = true;
+    video.pause();
+    video.removeAttribute('controls');
+
+    let videoDuration = 0;
+    let targetTime = 0;
+    let currentTime = 0;
+    let raf = null;
+
+    function getScrollProgress() {
+      const rect = track.getBoundingClientRect();
+      const trackTop = window.scrollY + rect.top;
+      const trackHeight = track.offsetHeight - window.innerHeight;
+      const scrolled = window.scrollY - trackTop;
+      return Math.max(0, Math.min(1, scrolled / trackHeight));
+    }
+
+    function onScroll() {
+      if (!videoDuration) return;
+      const p = getScrollProgress();
+      targetTime = p * videoDuration;
+      progressBar.style.width = (p * 100) + '%';
+      if (!raf) raf = requestAnimationFrame(tick);
+    }
+
+    function tick() {
+      currentTime += (targetTime - currentTime) * 0.22;
+      if (Math.abs(targetTime - currentTime) < 0.005) {
+        currentTime = targetTime;
+        raf = null;
+      } else {
+        raf = requestAnimationFrame(tick);
+      }
+      try { video.currentTime = currentTime; } catch (e) {}
+    }
+
+    function initVideo() {
+      videoDuration = video.duration || 0;
+      if (videoDuration && isFinite(videoDuration)) onScroll();
+    }
+
+    if (video.readyState >= 1 && video.duration) {
+      initVideo();
+    } else {
+      video.addEventListener('loadedmetadata', initVideo, { once: true });
+    }
+
+    video.addEventListener('loadeddata', () => {
+      const p = video.play();
+      if (p && p.then) p.then(() => video.pause()).catch(() => {});
+      else video.pause();
+    }, { once: true });
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+
+    /* ============================================================
+       Reveal copy on scroll
+       ============================================================ */
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.panel .copy').forEach((el) => io.observe(el));
+
+    /* ============================================================
+       Custom cursor
+       ============================================================ */
+    const cursor = document.getElementById('cursor');
+    let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+    let tx = cx, ty = cy;
+    window.addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; });
+    function loopCursor() {
+      cx += (tx - cx) * 0.25;
+      cy += (ty - cy) * 0.25;
+      cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+      requestAnimationFrame(loopCursor);
+    }
+    loopCursor();
+
+    document.querySelectorAll('[data-hover], a, button').forEach((el) => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    /* Hide cursor on touch devices */
+    if (matchMedia('(pointer: coarse)').matches) {
+      document.body.classList.add('no-custom-cursor');
+      cursor.style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

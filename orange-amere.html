@@ -1,0 +1,1520 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>L'Orange Amère® — Le jus qui ne fait pas semblant.</title>
+        <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Caveat:wght@400;700&family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght,ital@9..144,300..700,0;9..144,300..700,1&family=JetBrains+Mono:wght@400;500&family=Lilita+One&family=Sigmar&display=swap"
+        />
+        <link rel="stylesheet" href="pulpe-orange.css" />
+        <style>
+            body {
+                background: var(--bo-cream);
+                overflow-x: hidden;
+            }
+
+            /* Top progress bar */
+            .progress {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 5px;
+                background: var(--bo-orange);
+                z-index: 999;
+                width: 0%;
+            }
+
+            /* ===== TOP NAV (absolute — disparaît au scroll) ===== */
+            .nav {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 80;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 14px 28px;
+                background: var(--bo-cream);
+                border-bottom: 4px solid var(--bo-ink);
+            }
+            .nav__brand {
+                font-family: var(--f-cartoon);
+                font-size: 26px;
+                text-transform: uppercase;
+                letter-spacing: 0.01em;
+                color: var(--bo-ink);
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .nav__brand .logo-orange {
+                width: 36px;
+                height: 36px;
+                flex-shrink: 0;
+                display: block;
+                filter: drop-shadow(2px 2px 0 var(--bo-ink));
+            }
+            .nav__brand sup {
+                font-size: 12px;
+                vertical-align: super;
+            }
+            .nav__links {
+                display: flex;
+                gap: 24px;
+                font-family: var(--f-cartoon);
+                font-size: 15px;
+                text-transform: uppercase;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            .nav__links a {
+                text-decoration: none;
+                color: var(--bo-ink);
+                padding: 4px 0;
+                border-bottom: 3px solid transparent;
+            }
+            .nav__links a:hover {
+                border-bottom-color: var(--bo-red);
+                color: var(--bo-red);
+            }
+
+            /* ===== WARNING TAPE (marquee — absolute, disparaît au scroll) ===== */
+            .warning-band {
+                position: absolute;
+                top: 90px;
+                left: 0;
+                right: 0;
+                z-index: 70;
+                overflow: hidden;
+                padding: 10px 0;
+            }
+            .warning-band__track {
+                display: inline-flex;
+                align-items: center;
+                gap: 28px;
+                white-space: nowrap;
+                animation: warning-scroll 32s linear infinite;
+                padding-left: 0;
+            }
+            @keyframes warning-scroll {
+                from {
+                    transform: translateX(0);
+                }
+                to {
+                    transform: translateX(-50%);
+                }
+            }
+            .warning-band .bo-warning__plate {
+                margin: 0;
+                animation: shake 0.6s ease-in-out infinite alternate;
+                flex-shrink: 0;
+            }
+            @keyframes shake {
+                from {
+                    transform: rotate(-1.5deg);
+                }
+                to {
+                    transform: rotate(1.5deg);
+                }
+            }
+
+            /* ===== HERO (opaque + z-index pour cacher la vidéo derrière) ===== */
+            .hero {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                text-align: center;
+                padding: 180px 24px 80px;
+                position: relative;
+                z-index: 10;
+                background: var(--bo-cream);
+            }
+            .hero__title {
+                font-family: var(--f-cartoon);
+                font-size: clamp(80px, 10vw, 240px);
+                line-height: 0.85;
+                text-transform: uppercase;
+                color: var(--bo-orange);
+                -webkit-text-stroke: 4px var(--bo-ink);
+                paint-order: stroke fill;
+                margin: 0;
+                letter-spacing: -0.01em;
+            }
+            .hero__title em {
+                font-family: var(--f-italic);
+                font-style: italic;
+                font-weight: 700;
+                color: var(--bo-red);
+                text-transform: none;
+                display: block;
+                margin-top: 8px;
+                -webkit-text-stroke: 4px var(--bo-ink);
+            }
+            .hero__title sup {
+                font-family: var(--f-display);
+                font-size: 0.18em;
+                vertical-align: super;
+                -webkit-text-stroke: 2px var(--bo-ink);
+                color: var(--bo-yellow);
+            }
+            .hero__sub {
+                font-family: var(--f-italic);
+                font-style: italic;
+                font-size: clamp(20px, 2.4vw, 32px);
+                max-width: 640px;
+                margin: 28px auto 0;
+                color: var(--bo-ink);
+            }
+            .hero__pow-row {
+                display: flex;
+                gap: 32px;
+                justify-content: center;
+                margin-top: 36px;
+                flex-wrap: wrap;
+            }
+            .hero__scroll {
+                margin-top: 56px;
+                font-family: var(--f-cartoon);
+                font-size: 14px;
+                text-transform: uppercase;
+                letter-spacing: 0.16em;
+                color: var(--bo-ink);
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .hero__scroll::after {
+                content: "↓";
+                font-size: 24px;
+                animation: bounce 1.4s ease-in-out infinite;
+            }
+            @keyframes bounce {
+                0%,
+                100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(8px);
+                }
+            }
+
+            /* Floating doodles in hero */
+            .float {
+                position: absolute;
+                pointer-events: none;
+                animation: float-y 6s ease-in-out infinite;
+            }
+            @keyframes float-y {
+                0%,
+                100% {
+                    transform: translateY(0) rotate(0);
+                }
+                50% {
+                    transform: translateY(-12px) rotate(8deg);
+                }
+            }
+
+            /* ===== VIDEO STAGE — fixed centered ===== */
+            .stage {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 5;
+                pointer-events: none;
+            }
+            .stage__frame {
+                position: relative;
+                width: 100%;
+                max-width: 350px;
+                border: 5px solid var(--bo-ink);
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: 14px 14px 0 var(--bo-ink);
+                background: var(--bo-orange);
+                transform: rotate(-2deg);
+            }
+            .stage__video {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+            /* Sticker tag floating on the video */
+            .stage__sticker {
+                scale: 0.8;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                z-index: 10;
+                pointer-events: none;
+                transform: rotate(15deg);
+            }
+            .stage__sticker--bl {
+                top: auto;
+                right: auto;
+                bottom: 10px;
+                left: 0px;
+                transform: rotate(-12deg);
+            }
+
+            /* ===== SCROLL TRACK ===== */
+            .scroll-track {
+                position: relative;
+                z-index: 3;
+                height: 700vh;
+            }
+            .panel {
+                position: relative;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                padding: 0 5vw;
+                pointer-events: none;
+            }
+            .panel--left {
+                justify-content: flex-start;
+            }
+            .panel--right {
+                justify-content: flex-end;
+            }
+
+            .copy {
+                max-width: 420px;
+                pointer-events: auto;
+                opacity: 0;
+                transform: translateY(40px) rotate(-1deg);
+                transition:
+                    opacity 0.8s cubic-bezier(0.7, 0, 0.2, 1),
+                    transform 0.8s cubic-bezier(0.7, 0, 0.2, 1);
+            }
+            .copy.is-visible {
+                opacity: 1;
+                transform: translateY(0) rotate(-1deg);
+            }
+            .panel--right .copy {
+                transform: translateY(40px) rotate(1deg);
+            }
+            .panel--right .copy.is-visible {
+                transform: translateY(0) rotate(1deg);
+            }
+
+            .copy h2 {
+                font-family: var(--f-cartoon);
+                font-size: clamp(40px, 4vw, 80px);
+                line-height: 0.92;
+                text-transform: uppercase;
+                color: var(--bo-ink);
+                margin: 0 0 16px;
+            }
+            .copy h2 em {
+                font-family: var(--f-italic);
+                font-style: italic;
+                font-weight: 700;
+                text-transform: none;
+                color: var(--bo-red);
+            }
+            .copy p {
+                font-family: var(--f-italic);
+                font-style: italic;
+                font-size: 18px;
+                line-height: 1.45;
+                color: var(--bo-ink-soft);
+                margin: 0 0 16px;
+            }
+            .copy .punchline {
+                font-family: var(--f-cartoon);
+                font-style: normal;
+                font-size: 16px;
+                text-transform: uppercase;
+                color: var(--bo-orange);
+                margin-top: 12px;
+            }
+
+            .copy__chip-row {
+                display: flex;
+                gap: 8px;
+                margin-top: 18px;
+                flex-wrap: wrap;
+            }
+
+            /* ===== AFTER TRACK ===== */
+            .after {
+                position: relative;
+                z-index: 10;
+                background: var(--bo-cream);
+                border-top: 5px solid var(--bo-ink);
+            }
+
+            .testis {
+                padding: 96px 32px;
+                background: var(--bo-paper);
+                position: relative;
+            }
+            .testis__head {
+                text-align: center;
+                margin-bottom: 56px;
+            }
+            .testis__head h2 {
+                font-family: var(--f-cartoon);
+                font-size: clamp(36px, 5vw, 72px);
+                text-transform: uppercase;
+                margin: 16px 0 0;
+            }
+            .testis__head h2 em {
+                font-family: var(--f-italic);
+                font-style: italic;
+                color: var(--bo-red);
+            }
+            .testis__grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 24px;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            .testi {
+                background: #fff;
+                border: 4px solid var(--bo-ink);
+                border-radius: 20px;
+                padding: 28px;
+                box-shadow: var(--sh-cartoon);
+                transform: rotate(-1deg);
+            }
+            .testi:nth-child(2) {
+                transform: rotate(2deg);
+                background: var(--bo-yellow);
+            }
+            .testi:nth-child(3) {
+                transform: rotate(-2deg);
+            }
+            .testi__quote {
+                font-family: var(--f-italic);
+                font-style: italic;
+                font-size: 20px;
+                line-height: 1.4;
+                color: var(--bo-ink);
+                margin: 0 0 18px;
+            }
+            .testi__author {
+                font-family: var(--f-cartoon);
+                font-size: 14px;
+                text-transform: uppercase;
+                color: var(--bo-orange);
+            }
+            .testi__author small {
+                display: block;
+                font-family: var(--f-mono);
+                font-size: 11px;
+                letter-spacing: 0.16em;
+                color: var(--fg-muted);
+                text-transform: uppercase;
+                margin-top: 4px;
+            }
+
+            /* Newsletter */
+            .news {
+                padding: 96px 32px;
+                text-align: center;
+                background: var(--bo-cream);
+                position: relative;
+            }
+            .news h2 {
+                font-family: var(--f-cartoon);
+                font-size: clamp(40px, 5vw, 76px);
+                line-height: 0.95;
+                text-transform: uppercase;
+                margin: 16px 0 12px;
+            }
+            .news h2 em {
+                font-family: var(--f-italic);
+                font-style: italic;
+                color: var(--bo-orange);
+            }
+            .news p {
+                max-width: 520px;
+                margin: 0 auto;
+                color: var(--fg-muted);
+                font-family: var(--f-italic);
+                font-style: italic;
+                font-size: 18px;
+            }
+            .news__form {
+                display: flex;
+                gap: 12px;
+                max-width: 540px;
+                margin: 28px auto 0;
+            }
+
+            /* Footer */
+            .footer {
+                background: var(--bo-ink);
+                color: var(--bo-cream);
+                padding: 80px 32px 24px;
+                text-align: center;
+            }
+            .footer__brand {
+                font-family: var(--f-cartoon);
+                font-size: clamp(60px, 9vw, 140px);
+                line-height: 0.9;
+                color: var(--bo-orange);
+                -webkit-text-stroke: 3px var(--bo-yellow);
+                text-transform: uppercase;
+            }
+            .footer__brand em {
+                font-family: var(--f-italic);
+                font-style: italic;
+                color: var(--bo-yellow);
+                -webkit-text-stroke: 0;
+                display: block;
+            }
+            .footer__legal {
+                margin-top: 32px;
+                font-family: var(--f-mono);
+                font-size: 11px;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                color: #c0a888;
+            }
+            .footer__health {
+                margin-top: 16px;
+                font-family: var(--f-italic);
+                font-style: italic;
+                font-size: 13px;
+                color: #c0a888;
+                max-width: 600px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            /* ===== JUICE GLASS LOADER (page progress) ===== */
+            .juice-glass {
+                position: fixed;
+                bottom: 22px;
+                left: 22px;
+                z-index: 95;
+                width: 128px;
+                pointer-events: none;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                padding: 14px 14px 12px;
+                /* Cartoon white card behind the glass for contrast */
+                background: #fff;
+                border: 3px solid var(--bo-ink);
+                border-radius: 22px;
+                box-shadow: 6px 6px 0 var(--bo-ink);
+                /* Subtle halftone pattern inside the card */
+                background-image: radial-gradient(
+                    circle,
+                    rgba(27, 18, 8, 0.08) 1.2px,
+                    transparent 1.6px
+                );
+                background-size: 10px 10px;
+                background-color: #fff;
+            }
+            /* Tilted "loader" tag at the top-right of the card */
+            .juice-glass::before {
+                content: "Verre";
+                position: absolute;
+                top: -12px;
+                right: -10px;
+                background: var(--bo-red);
+                color: #fff;
+                font-family: var(--f-cartoon);
+                font-size: 10px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                padding: 4px 10px;
+                border: 2.5px solid var(--bo-ink);
+                border-radius: 999px;
+                transform: rotate(8deg);
+                box-shadow: 2px 2px 0 var(--bo-ink);
+            }
+            .juice-glass svg {
+                width: 100%;
+                height: auto;
+                display: block;
+                filter: drop-shadow(2px 2px 0 var(--bo-ink));
+            }
+            .juice-glass__pct {
+                font-family: var(--f-cartoon);
+                font-size: 14px;
+                text-transform: uppercase;
+                background: var(--bo-yellow);
+                border: 3px solid var(--bo-ink);
+                padding: 3px 12px;
+                border-radius: 999px;
+                color: var(--bo-ink);
+                letter-spacing: 0.04em;
+                line-height: 1;
+                box-shadow: 2px 2px 0 var(--bo-ink);
+                transition: background-color 0.3s ease;
+            }
+            .juice-glass.is-full .juice-glass__pct {
+                background: var(--bo-orange);
+                color: #fff;
+                animation: pulse 0.6s ease-in-out infinite alternate;
+            }
+            @keyframes pulse {
+                from {
+                    transform: scale(1) rotate(-2deg);
+                }
+                to {
+                    transform: scale(1.06) rotate(2deg);
+                }
+            }
+            /* Animated juice surface wobble */
+            #juiceWave {
+                animation: wobble 2.4s ease-in-out infinite;
+                transform-origin: center;
+            }
+            @keyframes wobble {
+                0%,
+                100% {
+                    transform: translateX(0);
+                }
+                50% {
+                    transform: translateX(-2px);
+                }
+            }
+
+            /* ===== RESPONSIVE ===== */
+            @media (max-width: 800px) {
+                .nav__links {
+                    display: none;
+                }
+                .stage__frame {
+                    max-width: 86vw;
+                    transform: rotate(0);
+                }
+                .stage__sticker {
+                    display: none;
+                }
+                .copy {
+                    max-width: 84vw;
+                }
+                .testis__grid {
+                    grid-template-columns: 1fr;
+                }
+                .news__form {
+                    flex-direction: column;
+                }
+                .warning-band {
+                    display: none;
+                }
+                .juice-glass {
+                    width: 96px;
+                    bottom: 14px;
+                    left: 14px;
+                    padding: 10px 10px 8px;
+                }
+                .juice-glass__pct {
+                    font-size: 11px;
+                    padding: 2px 8px;
+                }
+                .juice-glass::before {
+                    font-size: 9px;
+                    padding: 3px 8px;
+                    top: -10px;
+                    right: -8px;
+                }
+            }
+        </style>
+    </head>
+    <body class="bo-grain">
+        <div class="progress" id="progress"></div>
+
+        <!-- ====== JUICE GLASS LOADER (page progress, fills 0% → 100%) ====== -->
+        <div class="juice-glass" id="juiceGlass" aria-hidden="true">
+            <svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <!-- Glass interior shape used to clip the juice -->
+                    <clipPath id="glassClip">
+                        <path d="M22 18 L78 18 L72 110 L28 110 Z" />
+                    </clipPath>
+                    <!-- Juice gradient -->
+                    <linearGradient id="juiceGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#FFB871" />
+                        <stop offset="100%" stop-color="#D9540A" />
+                    </linearGradient>
+                </defs>
+
+                <!-- ===== Juice (clipped to glass shape) ===== -->
+                <g clip-path="url(#glassClip)" id="juiceWave">
+                    <rect
+                        id="juiceFill"
+                        x="20"
+                        y="110"
+                        width="60"
+                        height="120"
+                        fill="url(#juiceGrad)"
+                    />
+                    <!-- Wavy surface (sits at top of fill) -->
+                    <path
+                        id="juiceSurface"
+                        d="M20 112 Q35 108 50 112 T80 112 L80 116 L20 116 Z"
+                        fill="#FF7A1A"
+                    />
+                    <!-- Pulp dots floating inside -->
+                    <circle cx="36" cy="60" r="2" fill="#FFE5B0" opacity=".7" />
+                    <circle
+                        cx="56"
+                        cy="78"
+                        r="1.6"
+                        fill="#FFE5B0"
+                        opacity=".6"
+                    />
+                    <circle
+                        cx="65"
+                        cy="50"
+                        r="2.2"
+                        fill="#FFE5B0"
+                        opacity=".7"
+                    />
+                    <circle
+                        cx="44"
+                        cy="92"
+                        r="1.4"
+                        fill="#FFE5B0"
+                        opacity=".5"
+                    />
+                    <circle
+                        cx="60"
+                        cy="100"
+                        r="1.8"
+                        fill="#FFE5B0"
+                        opacity=".6"
+                    />
+                </g>
+
+                <!-- ===== Glass outline ===== -->
+                <path
+                    d="M22 18 L78 18 L72 110 L28 110 Z"
+                    fill="none"
+                    stroke="#1B1208"
+                    stroke-width="4"
+                    stroke-linejoin="round"
+                />
+
+                <!-- Top opening rim ellipse -->
+                <ellipse
+                    cx="50"
+                    cy="18"
+                    rx="28"
+                    ry="4.5"
+                    fill="none"
+                    stroke="#1B1208"
+                    stroke-width="3.5"
+                />
+                <!-- Bottom rim hint -->
+                <ellipse
+                    cx="50"
+                    cy="110"
+                    rx="22"
+                    ry="3"
+                    fill="none"
+                    stroke="#1B1208"
+                    stroke-width="2"
+                    opacity=".6"
+                />
+
+                <!-- Highlight on glass (left) -->
+                <path
+                    d="M30 28 Q28 60 33 95"
+                    fill="none"
+                    stroke="#fff"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    opacity=".55"
+                />
+
+                <!-- ===== Striped straw ===== -->
+                <g transform="rotate(14 50 60)">
+                    <line
+                        x1="58"
+                        y1="2"
+                        x2="50"
+                        y2="106"
+                        stroke="#1B1208"
+                        stroke-width="9"
+                        stroke-linecap="round"
+                    />
+                    <line
+                        x1="58"
+                        y1="2"
+                        x2="50"
+                        y2="106"
+                        stroke="#E63946"
+                        stroke-width="6.5"
+                        stroke-linecap="round"
+                    />
+                    <line
+                        x1="58"
+                        y1="2"
+                        x2="50"
+                        y2="106"
+                        stroke="#fff"
+                        stroke-width="6.5"
+                        stroke-linecap="round"
+                        stroke-dasharray="6 7"
+                    />
+                </g>
+
+                <!-- ===== Orange slice on the rim ===== -->
+                <g transform="translate(76 16) rotate(22)">
+                    <circle
+                        r="10"
+                        fill="#FF7A1A"
+                        stroke="#1B1208"
+                        stroke-width="2.2"
+                    />
+                    <circle r="5" fill="#FFE5B0" />
+                    <line
+                        x1="0"
+                        y1="-9"
+                        x2="0"
+                        y2="9"
+                        stroke="#fff"
+                        stroke-width="1.2"
+                    />
+                    <line
+                        x1="-9"
+                        y1="0"
+                        x2="9"
+                        y2="0"
+                        stroke="#fff"
+                        stroke-width="1.2"
+                    />
+                    <line
+                        x1="-7"
+                        y1="-7"
+                        x2="7"
+                        y2="7"
+                        stroke="#fff"
+                        stroke-width="1.2"
+                    />
+                    <line
+                        x1="-7"
+                        y1="7"
+                        x2="7"
+                        y2="-7"
+                        stroke="#fff"
+                        stroke-width="1.2"
+                    />
+                </g>
+            </svg>
+            <div class="juice-glass__pct" id="juicePct">0%</div>
+        </div>
+
+        <!-- ====== TOP NAV ====== -->
+        <nav class="nav">
+            <a href="#" class="nav__brand">
+                <svg class="logo-orange" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs>
+                        <radialGradient id="logo-og" cx="35%" cy="35%" r="70%">
+                            <stop offset="0%" stop-color="#FFB871"/>
+                            <stop offset="60%" stop-color="#FF7A1A"/>
+                            <stop offset="100%" stop-color="#D9540A"/>
+                        </radialGradient>
+                    </defs>
+                    <g transform="translate(60 4) rotate(-22)">
+                        <path d="M0 20 Q0 0 30 0 Q30 20 0 20 Z" fill="#6FAE3F" stroke="#1B1208" stroke-width="3" stroke-linejoin="round"/>
+                    </g>
+                    <circle cx="50" cy="56" r="38" fill="url(#logo-og)" stroke="#1B1208" stroke-width="3"/>
+                    <ellipse cx="38" cy="46" rx="8" ry="5" fill="#fff" opacity="0.32"/>
+                    <circle cx="50" cy="24" r="3.5" fill="#D9540A"/>
+                </svg>
+                L'Orange Amère<sup>®</sup>
+            </a>
+            <ul class="nav__links">
+                <li><a href="#">Le manifeste</a></li>
+                <li><a href="#">Nos plaintes</a></li>
+                <li><a href="#">Boutique</a></li>
+                <li><a href="#">F.A.Q. (question piège)</a></li>
+            </ul>
+            <a
+                href="#"
+                style="scale: 0.8"
+                class="bo-btn bo-btn--toon bo-btn--orange bo-btn--sm"
+            >
+                Goûter (à vos risques) <i class="bo-btn__arrow"></i>
+            </a>
+        </nav>
+
+        <!-- ====== WARNING TAPE (marquee défilant) ====== -->
+        <div class="warning-band bo-warning">
+            <div class="warning-band__track">
+                <span class="bo-warning__plate"
+                    >⚠ Édition mauvaise humeur 2026</span
+                >
+                <span class="bo-warning__plate">Pour adultes consentants</span>
+                <span class="bo-warning__plate">⚠ 0% Diplomatie</span>
+                <span class="bo-warning__plate">Goûter à vos risques</span>
+                <span class="bo-warning__plate"
+                    >⚠ Lot 042 — édition limitée</span
+                >
+                <span class="bo-warning__plate"
+                    >Cueillie sans enthousiasme</span
+                >
+                <!-- Duplicat pour boucle infinie sans saut -->
+                <span class="bo-warning__plate"
+                    >⚠ Édition mauvaise humeur 2026</span
+                >
+                <span class="bo-warning__plate">Pour adultes consentants</span>
+                <span class="bo-warning__plate">⚠ 0% Diplomatie</span>
+                <span class="bo-warning__plate">Goûter à vos risques</span>
+                <span class="bo-warning__plate"
+                    >⚠ Lot 042 — édition limitée</span
+                >
+                <span class="bo-warning__plate"
+                    >Cueillie sans enthousiasme</span
+                >
+            </div>
+        </div>
+
+        <!-- ====== HERO ====== -->
+        <section class="hero">
+            <i
+                class="bo-icon bo-icon--star text-yellow float"
+                style="top: 130px; left: 14%; width: 44px; height: 44px"
+            ></i>
+            <i
+                class="bo-icon bo-icon--spark text-red float"
+                style="
+                    top: 200px;
+                    right: 18%;
+                    width: 40px;
+                    height: 40px;
+                    animation-delay: 1s;
+                "
+            ></i>
+            <i
+                class="bo-icon bo-icon--heart text-orange float"
+                style="
+                    bottom: 200px;
+                    left: 22%;
+                    width: 32px;
+                    height: 32px;
+                    animation-delay: 2s;
+                "
+            ></i>
+
+            <span class="bo-eyebrow"
+                >CHEZ NOUS, C'EST LE QG DES ORANGES MAL LUNÉES</span
+            >
+            <h1 class="hero__title">
+                L'Orange<sup>®</sup>
+                <em>amère.</em>
+            </h1>
+            <p class="hero__sub">
+                Le jus qui ne fait pas semblant.<br />
+                Cueilli à la main par des gens qui ont mal dormi.
+            </p>
+
+            <!-- <div class="hero__pow-row">
+                <div class="bo-pow bo-pow--sm bo-pow--orange">
+                    <div>
+                        0%<br /><span style="font-size: 0.55em">SUCRE</span>
+                    </div>
+                </div>
+                <div class="bo-pow">
+                    <div>
+                        0%<br /><span style="font-size: 0.55em"
+                            >DIPLOMATIE</span
+                        >
+                    </div>
+                </div>
+                <div class="bo-pow bo-pow--sm bo-pow--yellow">
+                    <div>
+                        100%<br /><span style="font-size: 0.55em"
+                            >CARACTÈRE</span
+                        >
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="hero__scroll">À vos risques, faites défiler</div>
+        </section>
+
+        <!-- ====== VIDEO STAGE (fixed centered) ====== -->
+        <div class="stage" aria-hidden="true">
+            <div class="stage__frame">
+                <video
+                    id="scrollVideo"
+                    class="stage__video"
+                    src="orange-scroll.mp4"
+                    muted
+                    playsinline
+                    preload="auto"
+                    disablepictureinpicture
+                    tabindex="-1"
+                ></video>
+
+                <div class="stage__sticker">
+                    <div class="bo-toon-star">
+                        <div>NEW<br />2026</div>
+                    </div>
+                </div>
+                <div class="stage__sticker stage__sticker--bl">
+                    <div class="bo-tag">Édition n°042</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== SCROLL TRACK ====== -->
+        <main class="scroll-track">
+            <!-- 01 LEFT -->
+            <section class="panel panel--left">
+                <div class="copy">
+                    <span class="bo-eyebrow">Chapitre 01 — L'Aveu</span>
+                    <h2>
+                        Mais pourquoi <em>personne</em> ne s'en jette dessus ?
+                    </h2>
+                    <p>
+                        Excellente question. Honnêtement, nous non plus on ne
+                        sait pas vraiment.
+                    </p>
+                    <p>
+                        Peut-être parce qu'elle est aigre. Peut-être parce
+                        qu'elle a mauvais caractère. Peut-être parce qu'elle est
+                        française et qu'elle l'assume.
+                    </p>
+                    <div class="copy__chip-row">
+                        <span class="bo-badge bo-badge--orange"
+                            >100% AMÈRE</span
+                        >
+                        <span class="bo-badge">0% DIPLOMATIE</span>
+                        <span class="bo-badge bo-badge--out"
+                            >Sans concession</span
+                        >
+                    </div>
+                </div>
+            </section>
+
+            <!-- 02 RIGHT -->
+            <section class="panel panel--right">
+                <div class="copy">
+                    <span class="bo-eyebrow">Chapitre 02 — Le Caractère</span>
+                    <h2>Notre orange <em>a un avis.</em></h2>
+                    <p>
+                        Elle dit ce qu'elle pense. Tout le temps. Trop souvent.
+                    </p>
+                    <p>
+                        Si elle pouvait laisser des avis Google, elle vous
+                        mettrait une étoile par principe — et vous expliquerait
+                        pourquoi en 600 mots.
+                    </p>
+                    <div
+                        class="bo-speech bo-speech--yellow"
+                        style="margin-top: 24px"
+                    >
+                        « Non. »<br />
+                        <small
+                            style="
+                                font-family: var(--f-mono);
+                                font-size: 11px;
+                                letter-spacing: 0.12em;
+                            "
+                            >— L'orange, à toute proposition.</small
+                        >
+                    </div>
+                </div>
+            </section>
+
+            <!-- 03 LEFT -->
+            <section class="panel panel--left">
+                <div class="copy">
+                    <span class="bo-eyebrow">Chapitre 03 — La Cueillette</span>
+                    <h2>
+                        Cueillie à la main par
+                        <em>des gens qui ont mal dormi.</em>
+                    </h2>
+                    <p>
+                        Nos cueilleurs commencent à 5h47. Ils ne sont pas du
+                        matin. Personne n'est du matin à 5h47.
+                    </p>
+                    <p class="punchline">
+                        Ça donne du caractère au fruit. Et au service RH.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 04 RIGHT -->
+            <section class="panel panel--right">
+                <div class="copy">
+                    <span class="bo-eyebrow">Chapitre 04 — Le Pressage</span>
+                    <h2>Pressée à froid, <em>comme nos sentiments.</em></h2>
+                    <p>
+                        Six heures entre le verger et la bouteille. Suffisamment
+                        pour ruminer.
+                    </p>
+                    <p>
+                        On ne chauffe rien. On ne sucre rien. On ne dilue rien.
+                        On ne se justifie pas non plus.
+                    </p>
+                    <div class="copy__chip-row">
+                        <span class="bo-badge bo-badge--orange">06H MAX</span>
+                        <span class="bo-badge">PRESSAGE FROID</span>
+                        <span class="bo-badge bo-badge--leaf"
+                            >BIO (PAR HASARD)</span
+                        >
+                    </div>
+                </div>
+            </section>
+
+            <!-- 05 LEFT -->
+            <section class="panel panel--left">
+                <div class="copy">
+                    <span class="bo-eyebrow"
+                        >Chapitre 05 — Made in Terroir</span
+                    >
+                    <h2>Made in Bretagne. <em>C'est ironique.</em></h2>
+                    <p>
+                        Nos oranges poussent en Sicile. Le siège est à Brest. La
+                        directrice marketing est de Lille. Personne ne se parle.
+                    </p>
+                    <p class="punchline">
+                        On appelle ça la décentralisation émotionnelle.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 06 RIGHT -->
+            <section class="panel panel--right">
+                <div class="copy">
+                    <span class="bo-eyebrow"
+                        >Chapitre 06 — L'Embouteillage</span
+                    >
+                    <h2>Embouteillée <em>à contrecœur.</em></h2>
+                    <p>
+                        L'orange ne voulait pas. La bouteille non plus. On les a
+                        forcées. Voilà le résultat.
+                    </p>
+                    <p>
+                        Bouteille en verre brun (par esprit de contradiction
+                        avec le verre transparent), capsule métal (parce qu'on
+                        n'aime pas le plastique non plus).
+                    </p>
+                    <div
+                        class="bo-speech bo-speech--orange"
+                        style="margin-top: 24px"
+                    >
+                        « Si vous cherchez la douceur,<br />achetez une banane.
+                        »
+                    </div>
+                </div>
+            </section>
+
+            <!-- 07 LEFT FINAL -->
+            <section class="panel panel--left">
+                <div class="copy">
+                    <span class="bo-eyebrow"
+                        >Chapitre 07 — Vous voilà prévenu</span
+                    >
+                    <h2>Toujours là ? <em>Bravo.</em></h2>
+                    <p>
+                        Vous avez visiblement le goût du conflit. Cette orange
+                        est pour vous.
+                    </p>
+                    <a
+                        href="#"
+                        class="bo-btn bo-btn--toon bo-btn--orange bo-btn--lg"
+                        style="margin-top: 24px"
+                    >
+                        Acheter (vraiment ?) <i class="bo-btn__arrow"></i>
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <!-- ====== AFTER TRACK ====== -->
+        <section class="after">
+            <!-- Stats with humor -->
+            <div class="bo-stats">
+                <div class="bo-stat">
+                    <div class="bo-stat__num">0<span>%</span></div>
+                    <div class="bo-stat__label">Sucre ajouté</div>
+                </div>
+                <div class="bo-stat">
+                    <div class="bo-stat__num">0<span>%</span></div>
+                    <div class="bo-stat__label">Diplomatie ajoutée</div>
+                </div>
+                <div class="bo-stat">
+                    <div class="bo-stat__num">100<span>%</span></div>
+                    <div class="bo-stat__label">Goût d'avoir raison</div>
+                </div>
+                <div class="bo-stat">
+                    <div class="bo-stat__num">42</div>
+                    <div class="bo-stat__label">Plaintes par lot (record)</div>
+                </div>
+            </div>
+
+            <!-- Marquee -->
+            <div class="bo-marquee bo-marquee--orange">
+                <div class="bo-marquee__track">
+                    <span>L'Orange Amère®</span>
+                    <span>À vos risques</span>
+                    <span>0% diplomatie</span>
+                    <span>Édition 042</span>
+                    <span>Pressée à contrecœur</span>
+                    <span>L'Orange Amère®</span>
+                    <span>À vos risques</span>
+                    <span>0% diplomatie</span>
+                    <span>Édition 042</span>
+                    <span>Pressée à contrecœur</span>
+                </div>
+            </div>
+
+            <!-- Testimonials humoristiques -->
+            <section class="testis">
+                <div class="testis__head">
+                    <span class="bo-eyebrow" style="justify-content: center"
+                        >Ils osent l'avouer</span
+                    >
+                    <h2>Ils l'ont goûtée. <em>Ils en parlent encore.</em></h2>
+                </div>
+                <div class="testis__grid">
+                    <div class="testi">
+                        <p class="testi__quote">
+                            « J'ai pris une gorgée. Ma vie a changé. Pas dans le
+                            bon sens, mais elle a changé. »
+                        </p>
+                        <div class="testi__author">
+                            Jean-Claude, 54 ans
+                            <small>Lyon — note 2/5 étoiles</small>
+                        </div>
+                    </div>
+                    <div class="testi">
+                        <p class="testi__quote">
+                            « C'est comme boire un mardi soir d'octobre. Je
+                            recommande, mais je ne sais pas à qui. »
+                        </p>
+                        <div class="testi__author">
+                            Sophie, 31 ans
+                            <small>Lille — note "?/5 étoiles"</small>
+                        </div>
+                    </div>
+                    <div class="testi">
+                        <p class="testi__quote">
+                            « Excellente orange si vous avez quelque chose à
+                            reprocher au monde. Sinon, abstenez-vous. »
+                        </p>
+                        <div class="testi__author">
+                            Bernard, 67 ans
+                            <small>Brest — note 5/5 (sincèrement)</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Marquee 2 -->
+            <div class="bo-marquee bo-marquee--ink bo-marquee--reverse">
+                <div class="bo-marquee__track">
+                    <span>Goûter une fois suffit</span>
+                    <span>Garantie sans sourire</span>
+                    <span>Cueilli sans enthousiasme</span>
+                    <span>Pressé sans appétit</span>
+                    <span>Goûter une fois suffit</span>
+                    <span>Garantie sans sourire</span>
+                    <span>Cueilli sans enthousiasme</span>
+                    <span>Pressé sans appétit</span>
+                </div>
+            </div>
+
+            <!-- Newsletter -->
+            <section class="news">
+                <i
+                    class="bo-icon bo-icon--orange-slice text-orange float"
+                    style="top: 30px; left: 18%; width: 44px; height: 44px"
+                ></i>
+                <i
+                    class="bo-icon bo-icon--leaf text-leaf float"
+                    style="
+                        top: 60px;
+                        right: 20%;
+                        width: 40px;
+                        height: 40px;
+                        animation-delay: 1.5s;
+                    "
+                ></i>
+                <span class="bo-eyebrow" style="justify-content: center"
+                    >Restez aigris</span
+                >
+                <h2>Recevez nos plaintes <em>une fois par mois.</em></h2>
+                <p>
+                    Une newsletter aigrelette mais ponctuelle. Pas de
+                    désabonnement possible (on plaisante. Enfin presque).
+                </p>
+                <form class="news__form" onsubmit="event.preventDefault()">
+                    <input
+                        type="email"
+                        class="bo-input"
+                        placeholder="votre@email.fr"
+                    />
+                    <button
+                        type="submit"
+                        class="bo-btn bo-btn--toon bo-btn--orange"
+                    >
+                        S'abonner <i class="bo-btn__arrow"></i>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer__brand">L'ORANGE<br /><em>AMÈRE®</em></div>
+                <div class="footer__legal">
+                    © 2026 L'Orange Amère® — Brest, par tous les temps.<br />
+                    Mentions légales (en petites lettres, exprès) — CGV —
+                    Réclamations (les bienvenues)
+                </div>
+                <p class="footer__health">
+                    Pour votre santé, pratiquez la patience. Et l'humour. <br />
+                    <span class="bo-mono" style="opacity: 0.6"
+                        >www.gardezvotrecalme.fr</span
+                    >
+                </p>
+            </footer>
+        </section>
+
+        <script>
+            /* ============================================================
+       Console message — pour les développeurs et autres curieux
+       ============================================================ */
+            (function () {
+                const titleStyle = [
+                    "font-family: 'Lilita One', Impact, sans-serif",
+                    "font-size: 42px",
+                    "color: #FF7A1A",
+                    "-webkit-text-stroke: 2px #1B1208",
+                    "text-shadow: 4px 4px 0 #1B1208",
+                    "padding: 12px 0",
+                    "letter-spacing: 0.02em",
+                ].join(";");
+
+                const heading = [
+                    "font-family: 'Lilita One', Impact, sans-serif",
+                    "font-size: 16px",
+                    "color: #1B1208",
+                    "background: #FFD23F",
+                    "padding: 4px 10px",
+                    "border-radius: 4px",
+                ].join(";");
+
+                const body = [
+                    "font-family: ui-sans-serif, system-ui, sans-serif",
+                    "font-size: 13px",
+                    "color: #3A2A18",
+                    "line-height: 1.7",
+                ].join(";");
+
+                const italic = [
+                    "font-style: italic",
+                    "font-size: 13px",
+                    "color: #6b5640",
+                    "line-height: 1.6",
+                ].join(";");
+
+                const punch = [
+                    "font-family: 'Lilita One', Impact, sans-serif",
+                    "font-size: 14px",
+                    "color: #E63946",
+                    "letter-spacing: 0.04em",
+                ].join(";");
+
+                console.log("%cL'Orange Amère®", titleStyle);
+                console.log("%cTiens, un curieux. 🍊", heading);
+                console.log(
+                    "%c\nVous avez ouvert la console. Félicitations.\n" +
+                        "Malheureusement, on n'a rien prévu pour vous.\n" +
+                        "Pas d'easter egg. Pas de message caché. Pas de bonjour, à vrai dire.",
+                    body,
+                );
+                console.log(
+                    "%cSi vous cherchez du code élégant, vous vous êtes trompé d'endroit.\n" +
+                        "Ici, c'est juste du HTML, du CSS, et beaucoup de mauvaise humeur.",
+                    italic,
+                );
+                console.log(
+                    "%c→ La sortie est par où vous êtes entré.\n",
+                    punch,
+                );
+                console.log(
+                    "%cPS — Si vous voulez vraiment nous aider, achetez un verre.\n   Ça soulage notre amertume. Marginalement.",
+                    italic,
+                );
+            })();
+
+            /* ============================================================
+       Scroll-scrubbed video (centered, fixed)
+       ============================================================ */
+            const video = document.getElementById("scrollVideo");
+            const track = document.querySelector(".scroll-track");
+            const progressBar = document.getElementById("progress");
+
+            // On démarre la vidéo à 5s pour ralentir le défilement perçu
+            const VIDEO_START = 5;
+
+            video.muted = true;
+            video.pause();
+            video.removeAttribute("controls");
+
+            let videoDuration = 0;
+            let playableDuration = 0; // duration - VIDEO_START
+            let targetTime = VIDEO_START;
+            let currentTime = VIDEO_START;
+            let raf = null;
+
+            function getScrollProgress() {
+                const rect = track.getBoundingClientRect();
+                const trackTop = window.scrollY + rect.top;
+                const trackHeight = track.offsetHeight - window.innerHeight;
+                const scrolled = window.scrollY - trackTop;
+                return Math.max(0, Math.min(1, scrolled / trackHeight));
+            }
+
+            function onScroll() {
+                if (!playableDuration) return;
+                const p = getScrollProgress();
+                // Mappe le scroll [0..1] sur la plage [VIDEO_START..videoDuration]
+                targetTime = VIDEO_START + p * playableDuration;
+                progressBar.style.width = p * 100 + "%";
+                if (!raf) raf = requestAnimationFrame(tick);
+            }
+
+            function tick() {
+                currentTime += (targetTime - currentTime) * 0.22;
+                if (Math.abs(targetTime - currentTime) < 0.005) {
+                    currentTime = targetTime;
+                    raf = null;
+                } else {
+                    raf = requestAnimationFrame(tick);
+                }
+                try {
+                    video.currentTime = currentTime;
+                } catch (e) {}
+            }
+
+            function initVideo() {
+                videoDuration = video.duration || 0;
+                if (videoDuration && isFinite(videoDuration)) {
+                    playableDuration = Math.max(0, videoDuration - VIDEO_START);
+                    // Pose immédiatement la vidéo sur sa frame de départ (5s)
+                    try {
+                        video.currentTime = VIDEO_START;
+                    } catch (e) {}
+                    currentTime = VIDEO_START;
+                    targetTime = VIDEO_START;
+                    onScroll();
+                }
+            }
+
+            if (video.readyState >= 1 && video.duration) {
+                initVideo();
+            } else {
+                video.addEventListener("loadedmetadata", initVideo, {
+                    once: true,
+                });
+            }
+
+            video.addEventListener(
+                "loadeddata",
+                () => {
+                    const p = video.play();
+                    if (p && p.then)
+                        p.then(() => video.pause()).catch(() => {});
+                    else video.pause();
+                },
+                { once: true },
+            );
+
+            window.addEventListener("scroll", onScroll, { passive: true });
+            window.addEventListener("resize", onScroll);
+
+            /* Reveal copy when scrolled into view */
+            const io = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e) => {
+                        if (e.isIntersecting)
+                            e.target.classList.add("is-visible");
+                    });
+                },
+                { threshold: 0.3 },
+            );
+            document
+                .querySelectorAll(".panel .copy")
+                .forEach((el) => io.observe(el));
+
+            /* ============================================================
+       Juice glass loader — page-wide scroll progress (0% → 100%)
+       Empty Y = 110, Full Y = 18  (glass interior in viewBox 100×130)
+       ============================================================ */
+            const juiceFill = document.getElementById("juiceFill");
+            const juiceSurface = document.getElementById("juiceSurface");
+            const juicePct = document.getElementById("juicePct");
+            const juiceGlass = document.getElementById("juiceGlass");
+
+            const FUNNY_LABELS = [
+                [0, "0%"],
+                [10, "10%"],
+                [25, "25%"],
+                [50, "Mi-verre"],
+                [75, "75%"],
+                [90, "Presque !"],
+                [99, "99,9%"],
+                [100, "Cul sec !"],
+            ];
+
+            function pickLabel(pct) {
+                let label = pct + "%";
+                for (const [threshold, txt] of FUNNY_LABELS) {
+                    if (pct >= threshold) label = txt;
+                }
+                return label;
+            }
+
+            function updateJuice() {
+                const total =
+                    document.documentElement.scrollHeight - window.innerHeight;
+                const p =
+                    total > 0
+                        ? Math.max(0, Math.min(1, window.scrollY / total))
+                        : 0;
+                const pct = Math.round(p * 100);
+
+                // Y goes from 110 (empty) to 18 (full)
+                const fillTop = 110 - p * 92;
+                juiceFill.setAttribute("y", fillTop);
+
+                // Surface wave sits 4px above the fill top
+                const wTop = fillTop - 2;
+                juiceSurface.setAttribute(
+                    "d",
+                    `M20 ${wTop} Q35 ${wTop - 4} 50 ${wTop} T80 ${wTop} L80 ${wTop + 4} L20 ${wTop + 4} Z`,
+                );
+
+                juicePct.textContent = pickLabel(pct);
+                juiceGlass.classList.toggle("is-full", pct >= 100);
+            }
+            window.addEventListener("scroll", updateJuice, { passive: true });
+            window.addEventListener("resize", updateJuice);
+            updateJuice();
+        </script>
+    </body>
+</html>
