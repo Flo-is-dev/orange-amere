@@ -7,40 +7,6 @@
 
 ---
 
-## C'est quoi ce truc ?
-
-Deux choses, à la mauvaise humeur près :
-
-1. **`pulpe-orange.css`** — Un design system façon papier-bonbon : couleurs agrumes,
-   bordures zigzag, marquees jaunes, stickers POW!, halftone, bulles de BD.
-   17 sections, zéro dépendance, 100% jus pressé maison.
-2. **`orange-amere.html`** — Une landing page humoristique pour un produit qui
-   refuse d'être agréable, avec scroll-scrubbing vidéo synchronisé, verre
-   de jus SVG qui se remplit au scroll, et un message console pour les
-   curieux qui se sont trompés d'endroit.
-3. **`index.html`** — La vitrine du design system, avec une vue "Site Demo"
-   et une vue "Design System". Pour les gens sérieux.
-
-> Oui ça fait trois choses. On vous avait prévenu, on est aigres.
-
----
-
-## Comment on lance ce machin ?
-
-```bash
-# Méthode officielle
-open index.html
-
-# Ou si vous tenez à un serveur (la vidéo aime ça)
-npx serve .
-```
-
-Pas de `npm install`. Pas de `webpack`. Pas de `vite`. Pas de `bundler`.
-Juste du HTML, du CSS, du JS. Comme en 2003. Mais avec des `clamp()`
-et des `aspect-ratio`. Le progrès est lent, mais il existe.
-
----
-
 ## C'est qui qui a écrit ça ?
 
 > ⚠ **Avertissement honnête** ⚠
@@ -103,21 +69,21 @@ pulpe-orange/
 
 ## Ce que fait le design system
 
-| Section | C'est-à-dire |
-|---|---|
-| 01 — Couleurs | 12 tokens agrumes (orange, jaune, leaf, pulpe, zest, juice…) |
-| 02 — Typo | Archivo Black, Bebas Neue, Fraunces Italic, Caveat, DM Sans, JetBrains Mono, Lilita One, Sigmar |
-| 03 — Zigzag | La bordure dentelée signature (3 variantes) |
-| 04 — Boutons | 6 variantes × 3 tailles, avec hard shadow |
-| 05 — Stickers | Étoiles bursts en clip-path |
-| 06 — Marquees | Bandes défilantes (jaune, orange, leaf, ink) |
-| 07 — Cartes | Avec tilt et shadow offset |
-| 08 — Badges & checks | Listes à puces orange-coche |
-| 09 — Icônes | Slice, leaf, drop, star, heart, spark, arrow (SVG masks) |
-| 10 — Illustrations | Orange entière + demi-orange en CSS pur |
-| 11 — Navigation | Sticky avec brand mark |
-| 12 — Stats | Grille de chiffres |
-| 17 — Cartoon USA | POW! bursts, halftone, speech bubbles, warning stripes |
+| Section              | C'est-à-dire                                                                                    |
+| -------------------- | ----------------------------------------------------------------------------------------------- |
+| 01 — Couleurs        | 12 tokens agrumes (orange, jaune, leaf, pulpe, zest, juice…)                                    |
+| 02 — Typo            | Archivo Black, Bebas Neue, Fraunces Italic, Caveat, DM Sans, JetBrains Mono, Lilita One, Sigmar |
+| 03 — Zigzag          | La bordure dentelée signature (3 variantes)                                                     |
+| 04 — Boutons         | 6 variantes × 3 tailles, avec hard shadow                                                       |
+| 05 — Stickers        | Étoiles bursts en clip-path                                                                     |
+| 06 — Marquees        | Bandes défilantes (jaune, orange, leaf, ink)                                                    |
+| 07 — Cartes          | Avec tilt et shadow offset                                                                      |
+| 08 — Badges & checks | Listes à puces orange-coche                                                                     |
+| 09 — Icônes          | Slice, leaf, drop, star, heart, spark, arrow (SVG masks)                                        |
+| 10 — Illustrations   | Orange entière + demi-orange en CSS pur                                                         |
+| 11 — Navigation      | Sticky avec brand mark                                                                          |
+| 12 — Stats           | Grille de chiffres                                                                              |
+| 17 — Cartoon USA     | POW! bursts, halftone, speech bubbles, warning stripes                                          |
 
 (Les sections 13-16 ont préféré rester anonymes.)
 
@@ -172,5 +138,5 @@ SPDX-License-Identifier: MIT
 
 ---
 
-<sub>*Ce README a été généré par une IA, qui assure qu'elle n'a aucune
-opinion sur le sujet. Elle ment.*</sub>
+<sub>_Ce README a été généré par une IA, qui assure qu'elle n'a aucune
+opinion sur le sujet. Elle ment._</sub>
